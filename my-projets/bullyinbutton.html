@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bullying Comments App</title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: blue;
+      animation: rotateColors 10s linear infinite;
+    }
+
+    @keyframes rotateColors {
+      0% {
+        background-color: blue;
+      }
+      50% {
+        background-color: red;
+      }
+      100% {
+        background-color: green;
+      }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: black;
+    }
+
+    h1 {
+      font-weight: bold;
+      font-style: italic;
+      margin-top: 20px;
+    }
+
+    .content {
+      margin: 20px;
+    }
+
+    .content p {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .images {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .image {
+      margin: 10px;
+      opacity: 0;
+      animation: slideShow 20s linear infinite;
+    }
+
+    .creator {
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    .message {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .commentSection {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    @keyframes slideShow {
+      0%, 100% {
+        opacity: 0;
+      }
+      20%, 80% {
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <script>
+    function openCommentBox() {
+      const opinion = prompt("State your opinion about bullying:");
+      if (opinion !== null && opinion.trim() !== "") {
+        const commentSection = document.getElementById("commentSection");
+        const comment = document.createElement("p");
+        comment.textContent = opinion;
+        commentSection.appendChild(comment);
+        commentSection.style.display = "block"; // Show the comment section
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>BULLYING IS EVERYWHERE!</h1>
+    <div class="content">
+      <p>At work, Home, Church, and Even in Marriages, bullying exists.</p>
+      <button onclick="openCommentBox()">Click to Comment</button>
+    </div>
+
+    <div class="images">
+      <!-- Images displaying bullying -->
+      <div class="image">
+        <img src="C:\Users\27744\Documents\at school.jpg" alt="Bullying Image 2" width="300" height="200">
+      </div>
+      <div class="image">
+        <img src="C:\Users\27744\Documents\at home.jpg" alt="Bullying Image 3" width="300" height="200">
+      </div>
+      <div class="image">
+        <img src="C:\Users\27744\Documents\in marrieges.jpg" alt="Bullying Image 4" width="300" height="200">
+      </div>
+      <div class="image">
+        <img src="C:\Users\27744\Documents\bullying.jpg" alt="Bullying Image 5" width="300" height="200">
+      </div>
+    </div>
+
+    <div class="creator">Creator: ELIZABETH EUNICE NGOBENI</div>
+
+    <div class="message">
+      Speak up!! Share your experience, and how did you handle it? Your story might help someone out there.
+    </div>
+
+    <div class="commentSection" id="commentSection">
+      <!-- Existing comments will be displayed here -->
+    </div>
+  </div>
+</body>
+
+</html>
