@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: skyblue;
+            font-family: Arial, sans-serif;
+        }
+        .weather-container {
+            position: relative;
+            text-align: center;
+        }
+        .sunny-image {
+            max-width: 150px;
+            margin-top: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .sunny-image:hover {
+            transform: scale(1.1);
+        }
+        .weather-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .weather-card:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        .weather-info {
+            text-align: left;
+        }
+        button {
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        button:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <h1>Weather in South Africa</h1>
+        <div class="city-input">
+            <input type="text" id="cityInput" placeholder="Enter a city">
+            <button id="getWeatherBtn">Get Weather</button>
+        </div>
+        <div class="weather-card">
+            <img class="sunny-image" src="C:\Users\27744\Pictures\suny2.jpg" alt="Sunny Image">
+            <div class="weather-info">
+                <p id="weatherLocation"></p>
+                <p id="temperature"></p>
+                <p id="humidity"></p>
+                <p id="precipitation"></p>
+                <p id="wind"></p>
+                <p id="dateTime"></p>
+            </div>
+        </div>
+        <p>Weather created by Elizabeth Eunice Ndzukule-@2023</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cityInput = document.getElementById("cityInput");
+            const getWeatherBtn = document.getElementById("getWeatherBtn");
+            const weatherLocation = document.getElementById("weatherLocation");
+            const temperature = document.getElementById("temperature");
+            const humidity = document.getElementById("humidity");
+            const precipitation = document.getElementById("precipitation");
+            const wind = document.getElementById("wind");
+            const dateTime = document.getElementById("dateTime");
+
+            getWeatherBtn.addEventListener("click", () => {
+                const city = cityInput.value;
+                if (city) {
+                    fetchWeather(city);
+                }
+            });
+
+            function fetchWeather(city) {
+                const apiKey = "3ed565296c19775878a64c31457d90b2";
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        weatherLocation.textContent = `Weather in ${data.name}, ${data.sys.country}`;
+                        temperature.textContent = `Temperature: ${data.main.temp}°C`;
+                        humidity.textContent = `Humidity: ${data.main.humidity}%`;
+                        precipitation.textContent = `Precipitation: ${data.weather[0].description}`;
+                        wind.textContent = `Wind: ${data.wind.speed} m/s`;
+                        
+                        const currentDate = new Date();
+                        dateTime.textContent = `Date and Time: ${currentDate.toLocaleString()}`;
+                    })
+                    .catch(error => {
+                        console.error("Error fetching weather data:", error);
+                        weatherLocation.textContent = "City not found";
+                        temperature.textContent = "";
+                        humidity.textContent = "";
+                        precipitation.textContent = "";
+                        wind.textContent = "";
+                        dateTime.textContent = "";
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
