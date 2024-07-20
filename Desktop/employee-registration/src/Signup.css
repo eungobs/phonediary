@@ -1,0 +1,34 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  animation: changeBackground 2s infinite;
+}
+
+@keyframes changeBackground {
+  0% {
+    background-color: #ffcccc; /* First color */
+  }
+  50% {
+    background-color: #ccffcc; /* Second color */
+  }
+  100% {
+    background-color: #ffcccc; /* First color again to complete the loop */
+  }
+}
+
+.signup h1 {
+  font-size: 2rem;
+}
+
+.signup button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

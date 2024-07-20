@@ -1,0 +1,35 @@
+/* src/EditProfile.css */
+.edit-profile {
+  padding: 20px;
+  text-align: center;
+  Background-color: grey;
+}
+
+.edit-profile h2 {
+  margin-bottom: 20px;
+}
+
+.edit-profile form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-profile input {
+  margin: 10px;
+  padding: 10px;
+  width: 80%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-profile button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
