@@ -1,0 +1,114 @@
+.todolist-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: auto repeat(6, 1fr);
+  gap: 1px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.month {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.day {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.current-day {
+  background-color: #ffcccc; /* Highlight color for current day */
+  border-radius: 50%;
+}
+
+/* Define unique colors for each number */
+.day[data-day="1"] { background-color: #ff9999; }
+.day[data-day="2"] { background-color: #99ff99; }
+.day[data-day="3"] { background-color: #9999ff; }
+.day[data-day="4"] { background-color: #ffff99; }
+.day[data-day="5"] { background-color: #ff99ff; }
+.day[data-day="6"] { background-color: #99ffff; }
+.day[data-day="7"] { background-color: #ffcc99; }
+.day[data-day="8"] { background-color: #cc99ff; }
+.day[data-day="9"] { background-color: #99ffcc; }
+.day[data-day="10"] { background-color: #ffccff; }
+.day[data-day="11"] { background-color: #ccff99; }
+.day[data-day="12"] { background-color: #99ccff; }
+.day[data-day="13"] { background-color: #ff9966; }
+.day[data-day="14"] { background-color: #6699ff; }
+.day[data-day="15"] { background-color: #ff66cc; }
+.day[data-day="16"] { background-color: #66ffcc; }
+.day[data-day="17"] { background-color: #cc66ff; }
+.day[data-day="18"] { background-color: #66ccff; }
+.day[data-day="19"] { background-color: #ff6600; }
+.day[data-day="20"] { background-color: #66ff99; }
+.day[data-day="21"] { background-color: #9900ff; }
+.day[data-day="22"] { background-color: #00ff99; }
+.day[data-day="23"] { background-color: #cc00ff; }
+.day[data-day="24"] { background-color: #00ccff; }
+.day[data-day="25"] { background-color: #ff3300; }
+.day[data-day="26"] { background-color: #00ff66; }
+.day[data-day="27"] { background-color: #6600ff; }
+.day[data-day="28"] { background-color: #00ff00; }
+.day[data-day="29"] { background-color: #ff00ff; }
+.day[data-day="30"] { background-color: #00ffff; }
+.day[data-day="31"] { background-color: #ff0000; }
+
+.clock-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.clock {
+  font-size: 24px;
+}
+
+.left-panel {
+  float: left;
+  width: 50%;
+  padding: 20px;
+}
+
+.right-panel {
+  float: right;
+  width: 50%;
+  padding: 20px;
+}
+
+.profile-button, .view-button, .bell, .add-task {
+  margin: 10px;
+  padding: 10px;
+}
+
+.new-task {
+  margin-top: 20px;
+}
+
+.notes {
+  margin-top: 20px;
+}
+
+.timer {
+  margin-top: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+}
