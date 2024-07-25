@@ -1,7 +1,10 @@
+// src/App.js
+
 import React, { useState } from 'react';
 import Home from './Home';
 import Register from './Register';
 import Login from './Login';
+import Logout from './Logout'; // Corrected import statement
 import ToDoList from './ToDoList';
 import './styles.css';
 
@@ -10,6 +13,15 @@ function App() {
 
   const navigate = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleLogout = () => {
+    // Clear any authentication data if necessary
+    localStorage.removeItem('authToken'); // Adjust based on your storage mechanism
+    sessionStorage.removeItem('authToken'); // Adjust based on your storage mechanism
+
+    // Redirect to login page after logout
+    setCurrentPage('login');
   };
 
   const renderPage = () => {
@@ -21,7 +33,9 @@ function App() {
       case 'login':
         return <Login navigate={navigate} />;
       case 'todo-list':
-        return <ToDoList navigate={navigate} />;
+        return <ToDoList navigate={navigate} onLogout={handleLogout} />;
+      case 'logout':
+        return <Logout onLogout={handleLogout} />;
       default:
         return <Home navigate={navigate} />;
     }
@@ -35,9 +49,3 @@ function App() {
 }
 
 export default App;
-**/git init
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/eungobs/phonediary.git
-git push 
