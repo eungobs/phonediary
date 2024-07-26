@@ -1,6 +1,5 @@
-// src/Logout.js
-
 import React, { useEffect } from 'react';
+import './Logout.css'; // Import the CSS file
 
 const Logout = ({ onLogout }) => {
   useEffect(() => {
@@ -9,7 +8,7 @@ const Logout = ({ onLogout }) => {
   }, [onLogout]);
 
   return (
-    <div>
+    <div className="logout-screen">
       <p>Logging out...</p>
     </div>
   );

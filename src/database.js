@@ -1,19 +1,54 @@
+import { openDB } from 'idb';
+
 export const initDatabase = async () => {
-  // Initialize your database here (e.g., IndexedDB, SQLite, etc.)
-  // Return the database instance
+  const db = await openDB('profileDB', 1, {
+    upgrade(db) {
+      db.createObjectStore('profiles', { keyPath: 'id' });
+      db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
+    },
+  });
+  return db;
 };
 
-export const getUsers = async (dbInstance) => {
-  // Fetch users from the database using the dbInstance
-  // This is a placeholder for the real implementation
-  // Replace the below line with your actual data fetching logic
-  return []; // Return an empty array if no users are found
+export const getProfileData = async (db) => {
+  const tx = db.transaction('profiles', 'readonly');
+  const store = tx.objectStore('profiles');
+  const profile = await store.get(1); // Assuming profile ID is 1
+  await tx.done;
+  return profile || {
+    id: 1,
+    name: '',
+    surname: '',
+    gender: '',
+    dob: '',
+    country: '',
+    occupation: '',
+    phoneNumber: '',
+    email: '',
+    interests: '',
+    profileImage: ''
+  }; // Return default profile if not found
 };
 
-export const addUser = async (dbInstance, user) => {
-  // Add a user to the database using the dbInstance
-  // user is an object containing user details like name and email
-  // Example: { name: 'New User', email: 'newuser@example.com' }
-  // Implement the logic to add the user to the database
-  console.log('User added:', user);
+export const upsertProfileData = async (db, data) => {
+  const tx = db.transaction('profiles', 'readwrite');
+  const store = tx.objectStore('profiles');
+  await store.put(data);
+  await tx.done;
 };
+
+export const addUser = async (db, user) => {
+  const tx = db.transaction('users', 'readwrite');
+  const store = tx.objectStore('users');
+  await store.add(user);
+  await tx.done;
+};
+
+export const getUsers = async (db) => {
+  const tx = db.transaction('users', 'readonly');
+  const store = tx.objectStore('users');
+  const users = await store.getAll();
+  await tx.done;
+  return users;
+};
+

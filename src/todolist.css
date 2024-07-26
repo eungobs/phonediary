@@ -20,13 +20,13 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative; /* Ensure logout button positioning works */
 }
 
 /* Calendar Styles */
 .calendar-container {
   flex: 1;
   margin-bottom: 20px;
-  position: relative;
 }
 
 .month-year {
@@ -45,7 +45,7 @@ body {
 
 .calendar-header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   color: white;
   font-weight: bold;
   margin-bottom: 10px;
@@ -173,10 +173,30 @@ body {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 .logout-button:hover {
   background-color: #e60000;
+}
+
+/* Profile Button Styles */
+.profile-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #4caf50; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.profile-button:hover {
+  background-color: #45a049; /* Darker green on hover */
 }
 
 /* No Tasks Message */
@@ -185,5 +205,3 @@ body {
   font-size: 18px;
   color: white;
 }
-
-

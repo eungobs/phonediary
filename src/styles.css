@@ -1,17 +1,5 @@
-/* General Styles */
-body, html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-.app {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+/* Add Jolly Roger Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Jolly+Rogers&display=swap');
 
 /* Home Screen Styles */
 .home-screen {
@@ -19,7 +7,7 @@ body, html {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  width: 100%;
+  width: 1460px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,6 +16,48 @@ body, html {
   padding: 1rem;
   color: white;
   text-align: center;
+}
+
+.intro-text {
+  font-family: 'Jolly Rogers', cursive;
+  font-size: 64px;
+  color: #c14322;
+  animation: blink 20s step-start infinite, moveUp 300s ease-in-out infinite;
+}
+
+.description {
+  font-size: 24px;
+  margin-top: 20px;
+  color: #c14322;
+  animation: moveUp 220s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes moveUp {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Button Container Styles */
+.home-screen .button-container {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
 }
 
 .home-screen button {
@@ -66,6 +96,3 @@ body, html {
     font-size: 0.7rem;
   }
 }
-
-
-

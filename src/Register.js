@@ -1,136 +1,64 @@
 import React, { useState } from 'react';
-import { addUser, initDatabase } from './database';
-import './register.css';
+import { initDatabase, addUser } from './database'; // Ensure addUser is imported
 
 function Register({ navigate }) {
-  const [formData, setFormData] = useState({
+  const [userData, setUserData] = useState({
     name: '',
     surname: '',
     gender: '',
-    dateOfBirth: '',
+    dob: '',
     country: '',
     occupation: '',
     phoneNumber: '',
     email: '',
     interests: '',
-    photo: null,
+    profileImage: ''
   });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
 
-  const handlePhotoChange = (event) => {
-    setFormData({
-      ...formData,
-      photo: event.target.files[0],
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const db = await initDatabase();
-      await addUser(db, formData.name, formData.email);
-      // Add other form data handling here
-      alert('User registered successfully!');
-      navigate('login'); // Redirect to login page after successful registration
+      await addUser(db, userData);
+      navigate('login'); // Redirect to login after registration
     } catch (error) {
-      console.error('Error registering user:', error);
-      alert('Failed to register user');
+      console.error('Error adding user:', error);
     }
   };
 
   return (
-    <div className="register-screen">
-      {/* Removed the logo image */}
-      <h2 className="diary-text">Diary in your pocket</h2>
-      <h1>Register Here</h1>
+    <div className="register-container">
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="surname"
-          placeholder="Surname"
-          value={formData.surname}
-          onChange={handleChange}
-          required
-        />
-        <select
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-        <input
-          type="date"
-          name="dateOfBirth"
-          value={formData.dateOfBirth}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="country"
-          placeholder="Country"
-          value={formData.country}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="occupation"
-          placeholder="Occupation"
-          value={formData.occupation}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="tel"
-          name="phoneNumber"
-          placeholder="Phone Number"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="interests"
-          placeholder="Interests"
-          value={formData.interests}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="file"
-          name="photo"
-          onChange={handlePhotoChange}
-          required
-        />
+        <input type="text" name="name" value={userData.name} onChange={handleChange} placeholder="Name" required />
+        <input type="text" name="surname" value={userData.surname} onChange={handleChange} placeholder="Surname" required />
+        <input type="text" name="gender" value={userData.gender} onChange={handleChange} placeholder="Gender" required />
+        <input type="date" name="dob" value={userData.dob} onChange={handleChange} placeholder="Date of Birth" required />
+        <input type="text" name="country" value={userData.country} onChange={handleChange} placeholder="Country" required />
+        <input type="text" name="occupation" value={userData.occupation} onChange={handleChange} placeholder="Occupation" required />
+        <input type="tel" name="phoneNumber" value={userData.phoneNumber} onChange={handleChange} placeholder="Phone Number" required />
+        <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
+        <input type="text" name="interests" value={userData.interests} onChange={handleChange} placeholder="Interests" required />
+        <input type="file" accept="image/*" onChange={(e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setUserData((prevData) => ({
+                ...prevData,
+                profileImage: reader.result,
+              }));
+            };
+            reader.readAsDataURL(file);
+          }
+        }} />
         <button type="submit">Register</button>
       </form>
     </div>

@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ToDoList.css';
 
-// Sample logout function; replace with your actual implementation
-const logout = () => {
-  // Clear any authentication state or tokens here
-  alert('Logged out');
-  // Redirect to login page or home page
-  window.location.href = '/login'; // Adjust the path as needed
-};
-
-const ToDoList = () => {
+const ToDoList = ({ navigate, onLogout }) => {
   const [time, setTime] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
@@ -90,9 +82,15 @@ const ToDoList = () => {
     }
   };
 
+  const handleLogout = () => {
+    onLogout(); // Perform any additional logout logic if needed
+    navigate('login'); // Navigate to the login page after logout
+  };
+
   return (
     <div className="todo-list-container">
-      <button className="logout-button" onClick={logout}>Logout</button>
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
+      <button className="profile-button" onClick={() => navigate('profile')}>Profile</button>
       <div className="calendar-container">
         <div className="month-year">
           <button className="nav-button" onClick={handlePreviousMonth}>{'<'}</button>
@@ -166,4 +164,3 @@ const ToDoList = () => {
 };
 
 export default ToDoList;
-
