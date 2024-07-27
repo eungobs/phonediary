@@ -3,11 +3,36 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  max-width: 600px;
+  width: 1460px; /* Set the width of the page to 1460 pixels */
   margin: 0 auto;
-  background: #fff;
+  background: linear-gradient(
+    45deg, 
+    #0906c1 25%, 
+    #2b4d28 25%, 
+    #2b4d28 50%, 
+    #492745 50%, 
+    #492745 75%, 
+    #0906c1 75%, 
+    #0906c1
+  );
+  background-size: 300% 300%; /* Adjust the size to create stripe effect */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+}
+
+.back-button {
+  align-self: flex-start;
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  background-color: #d32f2f;
 }
 
 .profile-image-container {
@@ -16,11 +41,11 @@
 }
 
 .profile-image {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #f0f0f0;
+  border: 5px solid #235E67;
 }
 
 .profile-image-input {
@@ -34,7 +59,7 @@
 }
 
 .profile-details {
-  width: 100%;
+  width: 40%;
 }
 
 .profile-detail {
