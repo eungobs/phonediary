@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getProfileData, upsertProfileData, initDatabase } from './database';
 import './Profile.css';
 
-function Profile() {
+function Profile({ navigate }) {
   const [userData, setUserData] = useState({
     id: 1,
     name: '',
@@ -69,8 +69,13 @@ function Profile() {
     }
   };
 
+  const handleBackClick = () => {
+    navigate('todo-list');
+  };
+
   return (
     <div className="profile-container">
+      <button onClick={handleBackClick} className="back-button">Back</button>
       <div className="profile-image-container">
         <img
           src={userData.profileImage || 'default-profile.png'}
