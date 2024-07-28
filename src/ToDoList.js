@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ReminderModal from './ReminderModal'; // Import the ReminderModal component
+import ReminderModal from './ReminderModal';
 import './styles.css';
 
 function ToDoList({ navigate, onLogout }) {
@@ -12,39 +12,43 @@ function ToDoList({ navigate, onLogout }) {
   const taskSummary = useRef('');
   const taskDateTime = useRef('');
 
-  const createTask = () => {
+  // Fetch tasks from the database
+  const fetchTasks = async () => {
+    const response = await fetch('/api/tasks');
+    const tasks = await response.json();
+    setTasks(tasks);
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  // Create a new task in the database
+  const createTask = async () => {
     const newTask = {
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       dateTime: taskDateTime.current.value,
     };
-    setTasks([...tasks, newTask]);
-    saveTasks([...tasks, newTask]);
-    setOpened(false);
+    const response = await fetch('/api/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTask),
+    });
+    const createdTask = await response.json();
+    setTasks([...tasks, createdTask]);
+    setOpened(false); // Close the modal after creating the task
   };
 
-  const deleteTask = (index) => {
-    const clonedTasks = [...tasks];
-    clonedTasks.splice(index, 1);
-    setTasks(clonedTasks);
-    saveTasks(clonedTasks);
+  // Delete a task from the database
+  const deleteTask = async (taskId) => {
+    await fetch(`/api/tasks/${taskId}`, {
+      method: 'DELETE',
+    });
+    setTasks(tasks.filter(task => task.id !== taskId));
   };
-
-  const loadTasks = () => {
-    const loadedTasks = localStorage.getItem('tasks');
-    const tasks = JSON.parse(loadedTasks);
-    if (tasks) {
-      setTasks(tasks);
-    }
-  };
-
-  const saveTasks = (tasks) => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  };
-
-  useEffect(() => {
-    loadTasks();
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -91,11 +95,11 @@ function ToDoList({ navigate, onLogout }) {
       <div className='tasks-container'>
         <h1>My Tasks</h1>
         {tasks.length > 0 ? (
-          tasks.map((task, index) => (
-            <div className='task-card' key={index}>
+          tasks.map((task) => (
+            <div className='task-card' key={task.id}>
               <div className='task-header'>
                 <strong>{task.title}</strong>
-                <button className='delete-button' onClick={() => deleteTask(index)}>Delete</button>
+                <button className='delete-button' onClick={() => deleteTask(task.id)}>Delete</button>
               </div>
               <p>{task.summary || 'No summary was provided for this task'}</p>
               <p>Reminder set for: {task.dateTime}</p>
@@ -116,3 +120,6 @@ function ToDoList({ navigate, onLogout }) {
 }
 
 export default ToDoList;
+
+
+

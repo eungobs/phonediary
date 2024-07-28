@@ -1,20 +1,8 @@
-import React, { useEffect } from 'react';
-import { initDatabase } from './database';
+// Home.js
+import React from 'react';
 import './styles.css';
 
 function Home({ navigate }) {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await initDatabase();
-      } catch (error) {
-        console.error('Error initializing or fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <div className="home-screen">
       <div className="intro-text">
@@ -34,3 +22,4 @@ function Home({ navigate }) {
 }
 
 export default Home;
+

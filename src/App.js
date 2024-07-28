@@ -15,11 +15,8 @@ function App() {
   };
 
   const handleLogout = () => {
-    // Clear any authentication data if necessary
     localStorage.removeItem('authToken');
     sessionStorage.removeItem('authToken');
-
-    // Redirect to logout page
     setCurrentPage('logout');
   };
 
@@ -50,8 +47,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-

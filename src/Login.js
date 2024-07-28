@@ -24,7 +24,6 @@ function Login({ navigate }) {
   return (
     <div className="login-screen">
       <div className="diary-text">Diary in your pocket</div>
-      
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -49,4 +48,9 @@ function Login({ navigate }) {
 }
 
 export default Login;
+
+
+
+
+
 
