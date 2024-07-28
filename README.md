@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# ToDoList App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Table of Contents
+Introduction
+Features
+Technologies Used
+Installation
+Usage
+Screenshots
+Contributing
+Acknowledgements
+Introduction
+Hello! I'm Elizabeth Eunice Ngobeni, and I'm excited to share my ToDoList App with you. This app is a React.js-based application designed to simplify task management for busy individuals. It provides users with an intuitive interface to register, log in, and manage their tasks efficiently. The app also features a reminder alarm to ensure that no task is forgotten.
 
-## Available Scripts
+Features
+Home Page: Welcoming users with navigation options.
+Register Page: New users can create an account.
+Login Page: Registered users can log in to access their tasks.
+To-Do List Page: Users can add tasks, set reminders, and manage their task list.
+Technologies Used
+Frontend: React.js, CSS
+Storage: SQLite
+Development Tools: VSCode, GitHub
+Design: Figma
+UI: Beautiful colors and responsive design
+Installation
+Clone the repository:
 
-In the project directory, you can run:
+git clone https://github.com/your-username/phonediary.git
+Navigate to the project directory:
 
-### `npm start`
+cd phonediary
+Install dependencies:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+npm install
+Run the application:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+npm start
+Usage
+Open the application in your browser.
+Register a new account or log in if you already have one.
+Navigate to the To-Do List Page to add and manage your tasks.
+Set reminders for your tasks to receive alerts.
+Screenshots
+Home Page:
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Register Page:
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Login Page:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To-Do List Page:
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Contributing
+This project was developed by me, Elizabeth Eunice Ngobeni, as a solo project. Contributions are welcome. Please fork the repository and open a pull request to suggest improvements or new features.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Acknowledgements
+React.js for providing a robust framework for building user interfaces.
+SQLite for simple and efficient database management.
+VSCode for being a powerful and flexible code editor.
+GitHub for version control and deployment.
+Figma for sketching and designing the UI.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![Untitled (4)](https://github.com/user-attachments/assets/3583ab07-6261-4a0f-9779-c28eb03545eb) 
