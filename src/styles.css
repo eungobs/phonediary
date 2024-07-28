@@ -288,6 +288,19 @@ button:hover {
   background-color: darkred;
   min-height: 100vh;
 }
+/* Priority Colors */
+.task-card.low {
+  border-left: 5px solid green;
+}
+
+.task-card.medium {
+  border-left: 5px solid yellow;
+}
+
+.task-card.high {
+  border-left: 5px solid red;
+}
+
 
 .header-buttons {
   display: flex;
