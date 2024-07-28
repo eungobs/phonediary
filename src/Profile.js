@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getProfileData, upsertProfileData, initDatabase } from './database';
-import './Profile.css';
+import './styles.css';
 
-function Profile() {
+function Profile({ navigate }) {
   const [userData, setUserData] = useState({
     id: 1,
     name: '',
@@ -69,8 +69,13 @@ function Profile() {
     }
   };
 
+  const handleBackClick = () => {
+    navigate('todo-list');
+  };
+
   return (
     <div className="profile-container">
+      <button onClick={handleBackClick} className="back-button">Back</button>
       <div className="profile-image-container">
         <img
           src={userData.profileImage || 'default-profile.png'}
@@ -84,25 +89,75 @@ function Profile() {
           className="profile-image-input"
         />
       </div>
-      <div className="profile-details">
-        {Object.keys(userData).map((key) => {
-          if (key === 'id' || key === 'profileImage') return null;
-          return (
-            <div className="profile-detail" key={key}>
-              <label>{key.charAt(0).toUpperCase() + key.slice(1)}:</label>
-              <input
-                type="text"
-                name={key}
-                value={userData[key]}
-                onChange={handleInputChange}
-              />
-            </div>
-          );
-        })}
-        <button onClick={handleSave} className="save-button">Save</button>
+      <div className="profile-fields">
+        <label>Name</label>
+        <input
+          type="text"
+          name="name"
+          value={userData.name}
+          onChange={handleInputChange}
+        />
+        <label>Surname</label>
+        <input
+          type="text"
+          name="surname"
+          value={userData.surname}
+          onChange={handleInputChange}
+        />
+        <label>Gender</label>
+        <input
+          type="text"
+          name="gender"
+          value={userData.gender}
+          onChange={handleInputChange}
+        />
+        <label>Date of Birth</label>
+        <input
+          type="date"
+          name="dob"
+          value={userData.dob}
+          onChange={handleInputChange}
+        />
+        <label>Country</label>
+        <input
+          type="text"
+          name="country"
+          value={userData.country}
+          onChange={handleInputChange}
+        />
+        <label>Occupation</label>
+        <input
+          type="text"
+          name="occupation"
+          value={userData.occupation}
+          onChange={handleInputChange}
+        />
+        <label>Phone Number</label>
+        <input
+          type="tel"
+          name="phoneNumber"
+          value={userData.phoneNumber}
+          onChange={handleInputChange}
+        />
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          value={userData.email}
+          onChange={handleInputChange}
+        />
+        <label>Interests</label>
+        <input
+          type="text"
+          name="interests"
+          value={userData.interests}
+          onChange={handleInputChange}
+        />
       </div>
+      <button onClick={handleSave} className="save-button">Save</button>
     </div>
   );
 }
 
 export default Profile;
+

@@ -1,166 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import './ToDoList.css';
+import React, { useState, useRef, useEffect } from 'react';
+import ReminderModal from './ReminderModal'; // Import the ReminderModal component
+import './styles.css';
 
-const ToDoList = ({ navigate, onLogout }) => {
-  const [time, setTime] = useState(new Date());
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
+function ToDoList({ navigate, onLogout }) {
   const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState('');
-  const [notes, setNotes] = useState('');
-  const [taskTime, setTaskTime] = useState('');
+  const [opened, setOpened] = useState(false);
+  const [isReminderOpen, setIsReminderOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState(null);
+
+  const taskTitle = useRef('');
+  const taskSummary = useRef('');
+  const taskDateTime = useRef('');
+
+  const createTask = () => {
+    const newTask = {
+      title: taskTitle.current.value,
+      summary: taskSummary.current.value,
+      dateTime: taskDateTime.current.value,
+    };
+    setTasks([...tasks, newTask]);
+    saveTasks([...tasks, newTask]);
+    setOpened(false);
+  };
+
+  const deleteTask = (index) => {
+    const clonedTasks = [...tasks];
+    clonedTasks.splice(index, 1);
+    setTasks(clonedTasks);
+    saveTasks(clonedTasks);
+  };
+
+  const loadTasks = () => {
+    const loadedTasks = localStorage.getItem('tasks');
+    const tasks = JSON.parse(loadedTasks);
+    if (tasks) {
+      setTasks(tasks);
+    }
+  };
+
+  const saveTasks = (tasks) => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  };
 
   useEffect(() => {
-    // Update the clock every second
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
+    loadTasks();
   }, []);
 
   useEffect(() => {
-    // Automatically adjust to the next month if needed
-    const today = new Date();
-    if (today.getMonth() !== currentMonth.getMonth() || today.getFullYear() !== currentMonth.getFullYear()) {
-      setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
-    }
-  }, [currentMonth]);
+    const interval = setInterval(() => {
+      const now = new Date().toISOString().slice(0, 16);
+      tasks.forEach((task) => {
+        if (task.dateTime === now) {
+          setCurrentTask(task);
+          setIsReminderOpen(true);
+        }
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [tasks]);
 
-  // Helper function to get the days in a month
-  const getDaysInMonth = (year, month) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-
-  // Generate the calendar grid
-  const generateCalendar = () => {
-    const daysInMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth());
-    const startDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
-    const calendarDays = [];
-
-    // Empty days before the start of the month
-    for (let i = 0; i < startDay; i++) {
-      calendarDays.push(null);
-    }
-
-    // Actual days of the month
-    for (let i = 1; i <= daysInMonth; i++) {
-      calendarDays.push(i);
-    }
-
-    // Fill the rest of the grid to complete the last week
-    while (calendarDays.length % 7 !== 0) {
-      calendarDays.push(null);
-    }
-
-    return calendarDays;
-  };
-
-  const handlePreviousMonth = () => {
-    setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)));
-  };
-
-  const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)));
-  };
-
-  const handleAddTask = () => {
-    if (newTask.trim() !== '' && selectedDate !== null) {
-      setTasks([
-        ...tasks,
-        { 
-          date: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), selectedDate),
-          task: newTask,
-          notes,
-          time: taskTime
-        },
-      ]);
-      setNewTask('');
-      setNotes('');
-      setTaskTime('');
-    }
-  };
-
-  const handleLogout = () => {
-    onLogout(); // Perform any additional logout logic if needed
-    navigate('login'); // Navigate to the login page after logout
+  const closeReminderModal = () => {
+    setIsReminderOpen(false);
+    setCurrentTask(null);
   };
 
   return (
-    <div className="todo-list-container">
-      <button className="logout-button" onClick={handleLogout}>Logout</button>
-      <button className="profile-button" onClick={() => navigate('profile')}>Profile</button>
-      <div className="calendar-container">
-        <div className="month-year">
-          <button className="nav-button" onClick={handlePreviousMonth}>{'<'}</button>
-          {`${currentMonth.toLocaleString('default', { month: 'long' })} ${currentMonth.getFullYear()}`}
-          <button className="nav-button" onClick={handleNextMonth}>{'>'}</button>
-        </div>
-        <div className="calendar">
-          <div className="calendar-header">
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-          </div>
-          <div className="calendar-dates">
-            {generateCalendar().map((day, index) => (
-              <div
-                key={index}
-                className={`date ${day === new Date().getDate() && currentMonth.getMonth() === new Date().getMonth() && currentMonth.getFullYear() === new Date().getFullYear() ? 'current-date' : ''} ${day === selectedDate ? 'selected' : ''}`}
-                onClick={() => setSelectedDate(day)}
-              >
-                {day}
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className='ToDoList'>
+      <div className='header-buttons'>
+        <button className='logout-button' onClick={onLogout}>Logout</button>
+        <button className='profile-button' onClick={() => navigate('profile')}>Profile</button>
+        <button className='home-button' onClick={() => navigate('Home')}>Home</button>
       </div>
-      <div className="tasks-container">
-        <div className="add-task-form">
-          <input
-            type="text"
-            placeholder="Add new task"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-          />
-          <textarea
-            placeholder="Notes..."
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          ></textarea>
-          <input
-            type="time"
-            value={taskTime}
-            onChange={(e) => setTaskTime(e.target.value)}
-          />
-          <button onClick={handleAddTask}>Add Task</button>
-        </div>
-        <div className="current-time">Current Time: {time.toLocaleTimeString()}</div>
-        {tasks
-          .filter(
-            (task) =>
-              task.date.getDate() === selectedDate &&
-              task.date.getMonth() === currentMonth.getMonth() &&
-              task.date.getFullYear() === currentMonth.getFullYear()
-          )
-          .map((task, index) => (
-            <div key={index} className="task">
-              <div className="task-details">
-                <div className="task-title">{task.task}</div>
-                <div className="task-time">Time: {task.time}</div>
-                <div className="task-notes">Notes: {task.notes}</div>
-              </div>
+      {opened && (
+        <div className='modal'>
+          <div className='modal-content'>
+            <h2>New Task</h2>
+            <label>Title</label>
+            <input ref={taskTitle} placeholder='Task Title' required />
+            <label>Summary</label>
+            <input ref={taskSummary} placeholder='Task Summary' />
+            <label>Date and Time</label>
+            <input type='datetime-local' ref={taskDateTime} required />
+            <div className='modal-actions'>
+              <button onClick={() => setOpened(false)}>Cancel</button>
+              <button onClick={createTask}>Create Task</button>
             </div>
-          ))}
-        {tasks.length === 0 && <div className="no-tasks">No tasks for this day</div>}
+          </div>
+        </div>
+      )}
+      <div className='tasks-container'>
+        <h1>My Tasks</h1>
+        {tasks.length > 0 ? (
+          tasks.map((task, index) => (
+            <div className='task-card' key={index}>
+              <div className='task-header'>
+                <strong>{task.title}</strong>
+                <button className='delete-button' onClick={() => deleteTask(index)}>Delete</button>
+              </div>
+              <p>{task.summary || 'No summary was provided for this task'}</p>
+              <p>Reminder set for: {task.dateTime}</p>
+            </div>
+          ))
+        ) : (
+          <p>You have no tasks</p>
+        )}
+        <button className='new-task-button' onClick={() => setOpened(true)}>New Task</button>
       </div>
+      <ReminderModal
+        isOpen={isReminderOpen}
+        onClose={closeReminderModal}
+        task={currentTask}
+      />
     </div>
   );
-};
+}
 
 export default ToDoList;

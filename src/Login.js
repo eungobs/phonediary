@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './login.css';
+import './styles.css';
 
 function Login({ navigate }) {
   const [formData, setFormData] = useState({
@@ -17,10 +17,8 @@ function Login({ navigate }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Perform login logic here
-    // If login is successful, navigate to the To-Do List page
     alert('Login successful!');
-    navigate('todo-list'); // Match the route name exactly as defined in App.js
+    navigate('todo-list');
   };
 
   return (
@@ -51,3 +49,4 @@ function Login({ navigate }) {
 }
 
 export default Login;
+

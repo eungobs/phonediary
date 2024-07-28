@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import { initDatabase } from './database';
 import './styles.css';
 
-function Home({ navigate, handleLogout }) {
+function Home({ navigate }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
         await initDatabase();
-        // If you have other logic or initialization, keep it here
       } catch (error) {
         console.error('Error initializing or fetching data:', error);
       }

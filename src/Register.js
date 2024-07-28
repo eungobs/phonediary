@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { initDatabase, addUser } from './database'; // Ensure addUser is imported
+import { initDatabase, addUser, getUserByEmail } from './database';
+import './styles.css';
 
 function Register({ navigate }) {
   const [userData, setUserData] = useState({
@@ -14,6 +15,8 @@ function Register({ navigate }) {
     interests: '',
     profileImage: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,17 +28,41 @@ function Register({ navigate }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
+    if (!userData.email.includes('@')) {
+      setError('Email must contain @');
+      return;
+    }
+
+    if (!/^\d{10}$/.test(userData.phoneNumber)) {
+      setError('Phone number must be 10 digits');
+      return;
+    }
+
+    setLoading(true);
     try {
       const db = await initDatabase();
-      await addUser(db, userData);
-      navigate('login'); // Redirect to login after registration
+      const existingUser = await getUserByEmail(db, userData.email);
+
+      if (existingUser) {
+        setError('You already have an account.');
+      } else {
+        await addUser(db, userData);
+        navigate('login');
+      }
     } catch (error) {
       console.error('Error adding user:', error);
+      setError('Error adding user');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="register-container">
+      {loading && <div className="loader">Loading...</div>}
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <input type="text" name="name" value={userData.name} onChange={handleChange} placeholder="Name" required />
         <input type="text" name="surname" value={userData.surname} onChange={handleChange} placeholder="Surname" required />
@@ -66,3 +93,4 @@ function Register({ navigate }) {
 }
 
 export default Register;
+

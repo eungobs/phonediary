@@ -1,4 +1,139 @@
-/* Add Jolly Roger Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+
+/* Styles for the login screen */
+.login-screen {
+  background: linear-gradient(135deg, #e3f988, #bdb76b, #808000); /* Smooth gradient background */
+  background-size: cover; /* Ensure the background covers the entire screen */
+  background-position: center; /* Center the background */
+  width: 1460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Extend background width */
+.login-screen::after {
+  content: '';
+  position: absolute;
+  width: 1460px;
+  height: 100%;
+  background: inherit;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1; /* Place behind content */
+}
+
+/* Decorative elements for added flair */
+.login-screen::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Styles for Diary in your pocket text */
+.diary-text {
+  font-family: 'Irish Grover', cursive;
+  font-weight: bold;
+  font-size: 2.5rem; /* Slightly larger for prominence */
+  color: #ff6347; /* Tomato color for contrast */
+  margin-bottom: 2rem;
+  z-index: 1;
+  position: relative;
+}
+
+/* Styles for form and inputs */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.8); /* Slightly transparent white background for form */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for form */
+  position: relative;
+  z-index: 1;
+}
+
+/* Styles for form inputs */
+input[type="text"],
+input[type="password"] {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 100%; /* Ensure inputs fill form width */
+  box-sizing: border-box; /* Ensures padding is included in width */
+}
+
+/* Styles for buttons */
+button {
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100%; /* Button will fit the form width */
+  max-width: 280px; /* Constrain maximum width */
+  margin: 0 auto; /* Center button horizontally */
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .diary-text {
+    font-size: 2rem;
+  }
+
+  button {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .diary-text {
+    font-size: 1.75rem;
+  }
+
+  button {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .diary-text {
+    font-size: 1.5rem;
+  }
+
+  button {
+    padding: 0.5rem;
+    font-size: 0.7rem;
+  }
+}
 @import url('https://fonts.googleapis.com/css2?family=Jolly+Rogers&display=swap');
 
 /* Home Screen Styles */
@@ -96,3 +231,456 @@
     font-size: 0.7rem;
   }
 }
+
+@media (max-width: 414px) {
+  .home-screen {
+    width: 100%;
+    height: auto;
+  }
+
+  .intro-text {
+    font-size: 40px;
+  }
+
+  .description {
+    font-size: 18px;
+  }
+
+  .home-screen button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .intro-text {
+    font-size: 36px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .home-screen button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .intro-text {
+    font-size: 30px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .home-screen button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.6rem;
+  }
+}
+
+.ToDoList {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: darkred;
+  min-height: 100vh;
+}
+
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.logout-button, .profile-button, .new-task-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover, .profile-button:hover, .new-task-button:hover {
+  background-color: #0056b3;
+}
+
+.tasks-container {
+  margin-top: 20px;
+}
+
+.task-card {
+  background: #f9f9f9;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+
+/* Styles for the register screen */
+.register-screen {
+  background-color: #f4f4f4; /* Light background color for the registration screen */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background-image: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100"><text x="10" y="20" font-size="10" fill="%23ff6347">✏️</text><text x="30" y="20" font-size="10" fill="%23ff6347">📚</text><text x="50" y="20" font-size="10" fill="%23ff6347">📅</text><text x="10" y="40" font-size="10" fill="%23ff6347">✏️</text><text x="30" y="40" font-size="10" fill="%23ff6347">📚</text><text x="50" y="40" font-size="10" fill="%23ff6347">📅</text><text x="10" y="60" font-size="10" fill="%23ff6347">✏️</text><text x="30" y="60" font-size="10" fill="%23ff6347">📚</text><text x="50" y="60" font-size="10" fill="%23ff6347">📅</text></svg>');
+  background-repeat: repeat; /* Repeat background image */
+  background-size: 10% 10%; /* Adjust size of emojis */
+  width: 1460px;
+}
+
+/* Styles for Diary in your pocket text */
+.diary-text {
+  font-family: 'Irish Grover', cursive;
+  font-weight: bold;
+  font-size: 2rem;
+  color: #ff6347; /* Tomato color or any other color you prefer */
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1; /* Make sure text is above background */
+}
+
+/* Styles for form and inputs */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="tel"],
+input[type="email"],
+select,
+input[type="file"] {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+button {
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Profile Section */
+.profile-container {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.profile-container h2 {
+  margin-bottom: 20px;
+}
+
+.profile-container img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.profile-container button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.profile-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Media Queries for Small Screens */
+@media (max-width: 767px) {
+  .register-screen,
+  .home-screen {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .diary-text {
+    font-size: 1.5rem;
+  }
+
+  .intro-text {
+    font-size: 30px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .home-screen button,
+  button {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .diary-text {
+    font-size: 1.2rem;
+  }
+
+  .intro-text {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .home-screen button,
+  button {
+    padding: 0.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .diary-text {
+    font-size: 1rem;
+  }
+
+  .intro-text {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 10px;
+  }
+
+  .home-screen button,
+  button {
+    padding: 0.4rem;
+    font-size: 0.6rem;
+  }
+}
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 1460px; 
+ 
+  background: linear-gradient(
+    45deg, 
+    #0906c1 25%, 
+    #2b4d28 25%, 
+    #2b4d28 50%, 
+    #492745 50%, 
+    #492745 75%, 
+    #0906c1 75%, 
+    #0906c1
+  );
+  background-size: 300% 300%; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.back-button {
+  align-self: flex-start;
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  background-color: #d32f2f;
+}
+
+.profile-image-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #235E67;
+}
+
+.profile-image-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.profile-details {
+  width: 40%;
+}
+
+.profile-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-detail label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.profile-detail input {
+  width: calc(90% - 90px);
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.save-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
+.loader {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+/* ReminderModal.css */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+

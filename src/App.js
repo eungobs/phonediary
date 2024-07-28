@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Home from './Home';
 import Register from './Register';
 import Login from './Login';
-import Logout from './Logout';
 import ToDoList from './ToDoList';
 import Profile from './Profile';
+import Logout from './Logout';
 import './styles.css';
 
 function App() {
@@ -16,8 +16,8 @@ function App() {
 
   const handleLogout = () => {
     // Clear any authentication data if necessary
-    localStorage.removeItem('authToken'); // Adjust based on your storage mechanism
-    sessionStorage.removeItem('authToken'); // Adjust based on your storage mechanism
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('authToken');
 
     // Redirect to logout page
     setCurrentPage('logout');
@@ -26,7 +26,7 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <Home navigate={navigate} handleLogout={handleLogout} />;
+        return <Home navigate={navigate} />;
       case 'register':
         return <Register navigate={navigate} />;
       case 'login':
@@ -34,11 +34,11 @@ function App() {
       case 'todo-list':
         return <ToDoList navigate={navigate} onLogout={handleLogout} />;
       case 'profile':
-        return <Profile />;
+        return <Profile navigate={navigate} />;
       case 'logout':
-        return <Logout onLogout={() => window.location.href = 'https://www.yourhomepage.com'} />;
+        return <Logout onLogout={handleLogout} />;
       default:
-        return <Home navigate={navigate} handleLogout={handleLogout} />;
+        return <Home navigate={navigate} />;
     }
   };
 
@@ -50,3 +50,8 @@ function App() {
 }
 
 export default App;
+
+
+
+
+

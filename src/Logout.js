@@ -1,18 +1,13 @@
-import React, { useEffect } from 'react';
-import './Logout.css'; // Import the CSS file
+import React from 'react';
+import './styles.css';
 
-const Logout = ({ onLogout }) => {
-  useEffect(() => {
-    // Perform logout actions
-    if (onLogout) onLogout();
-  }, [onLogout]);
-
+function Logout({ onLogout }) {
   return (
-    <div className="logout-screen">
-      <p>Logging out...</p>
+    <div className="logout-container">
+      <h2>Are you sure you want to logout?</h2>
+      <button onClick={onLogout}>Logout</button>
     </div>
   );
-};
+}
 
 export default Logout;
-

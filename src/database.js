@@ -1,3 +1,5 @@
+// database.js
+
 import { openDB } from 'idb';
 
 export const initDatabase = async () => {
@@ -52,3 +54,10 @@ export const getUsers = async (db) => {
   return users;
 };
 
+export const getUserByEmail = async (db, email) => {
+  const tx = db.transaction('users', 'readonly');
+  const store = tx.objectStore('users');
+  const users = await store.getAll();
+  await tx.done;
+  return users.find(user => user.email === email);
+};
