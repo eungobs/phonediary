@@ -12,8 +12,7 @@ function ToDoList({ navigate, onLogout }) {
   const taskTitle = useRef('');
   const taskSummary = useRef('');
   const taskDateTime = useRef('');
-  const taskPriority = useRef('Medium'); // Including priority if needed
-
+  const taskPriority = useRef('Medium'); 
   // Fetch tasks from the database
   const fetchTasks = async () => {
     try {
@@ -36,7 +35,7 @@ function ToDoList({ navigate, onLogout }) {
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       dateTime: taskDateTime.current.value,
-      priority: taskPriority.current.value, // Include priority if needed
+      priority: taskPriority.current.value, 
     };
 
     console.log('Creating task:', newTask); // Debug log
