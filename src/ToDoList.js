@@ -16,11 +16,11 @@ function ToDoList({ navigate, onLogout }) {
 
   // Mock fetch tasks function
   const fetchTasks = () => {
-    // Replace this with actual fetching logic
+    
     const mockTasks = [
       { id: 1, title: 'Sample Task', summary: 'This is a sample task.', dateTime: '2024-01-01T12:00', priority: 'Medium' },
       { id: 2, title: 'Another Task', summary: 'This is another task.', dateTime: '2024-01-02T12:00', priority: 'High' }
-      // Add more mock tasks as needed
+      
     ];
     setTasks(mockTasks);
   };
@@ -32,17 +32,17 @@ function ToDoList({ navigate, onLogout }) {
   // Create a new task function
   const createTask = () => {
     const newTask = {
-      id: Date.now(), // Use timestamp as unique ID
+      id: Date.now(), 
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       dateTime: taskDateTime.current.value,
       priority: taskPriority.current.value,
     };
 
-    console.log('Creating task:', newTask); // Debug log
+    console.log('Creating task:', newTask); 
 
     setTasks([...tasks, newTask]);
-    setOpened(false); // Close the modal after creating the task
+    setOpened(false); 
   };
 
   // Delete a task function
