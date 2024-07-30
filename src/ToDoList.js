@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReminderModal from './ReminderModal';
-import './styles.css';
+import './todo.css';
 
 function ToDoList({ navigate, onLogout }) {
   const [tasks, setTasks] = useState([]);
@@ -12,63 +12,42 @@ function ToDoList({ navigate, onLogout }) {
   const taskTitle = useRef('');
   const taskSummary = useRef('');
   const taskDateTime = useRef('');
-  const taskPriority = useRef('Medium'); 
-  // Fetch tasks from the database
-  const fetchTasks = async () => {
-    try {
-      const response = await fetch('/api/tasks');
-      if (!response.ok) throw new Error('Failed to fetch tasks');
-      const tasks = await response.json();
-      setTasks(tasks);
-    } catch (error) {
-      console.error('Error fetching tasks:', error);
-    }
+  const taskPriority = useRef('Medium');
+
+  // Mock fetch tasks function
+  const fetchTasks = () => {
+    // Replace this with actual fetching logic
+    const mockTasks = [
+      { id: 1, title: 'Sample Task', summary: 'This is a sample task.', dateTime: '2024-01-01T12:00', priority: 'Medium' },
+      { id: 2, title: 'Another Task', summary: 'This is another task.', dateTime: '2024-01-02T12:00', priority: 'High' }
+      // Add more mock tasks as needed
+    ];
+    setTasks(mockTasks);
   };
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
-  // Create a new task in the database
-  const createTask = async () => {
+  // Create a new task function
+  const createTask = () => {
     const newTask = {
+      id: Date.now(), // Use timestamp as unique ID
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       dateTime: taskDateTime.current.value,
-      priority: taskPriority.current.value, 
+      priority: taskPriority.current.value,
     };
 
     console.log('Creating task:', newTask); // Debug log
 
-    try {
-      const response = await fetch('/api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newTask),
-      });
-
-      if (!response.ok) throw new Error('Failed to create task');
-
-      const createdTask = await response.json();
-      setTasks([...tasks, createdTask]);
-      setOpened(false); // Close the modal after creating the task
-    } catch (error) {
-      console.error('Error creating task:', error);
-    }
+    setTasks([...tasks, newTask]);
+    setOpened(false); // Close the modal after creating the task
   };
 
-  // Delete a task from the database
-  const deleteTask = async (taskId) => {
-    try {
-      await fetch(`/api/tasks/${taskId}`, {
-        method: 'DELETE',
-      });
-      setTasks(tasks.filter(task => task.id !== taskId));
-    } catch (error) {
-      console.error('Error deleting task:', error);
-    }
+  // Delete a task function
+  const deleteTask = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId));
   };
 
   // Search function
@@ -162,7 +141,6 @@ function ToDoList({ navigate, onLogout }) {
 }
 
 export default ToDoList;
-
 
 
 
