@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Elizabeth",
+      "surname": "Ndzukule",
+      "gender": "Female",
+      "dob": "1990-01-01",
+      "country": "South Africa",
+      "occupation": "Engineer",
+      "phoneNumber": "123-456-7890",
+      "email": "elizabeth.ndzukule@gmail.com",
+      "interests": "Reading, Coding",
+      "profileImage": ""
+    }
+  ]
+}
