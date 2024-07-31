@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Tebogo",
+      "email": "tebogo@example.com",
+      "phone": "0123456789",
+      "password": "password123"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Sample Task",
+      "summary": "This is a sample task.",
+      "dateTime": "2024-01-01T12:00",
+      "priority": "Medium"
+    },
+    {
+      "id": 2,
+      "title": "Another Task",
+      "summary": "This is another task.",
+      "dateTime": "2024-01-02T12:00",
+      "priority": "High"
+    }
+  ]
+}
+
