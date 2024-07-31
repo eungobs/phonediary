@@ -26,33 +26,26 @@ UI: Beautiful colors and responsive design
 Installation
 Clone the repository:
 
-bash
-Copy code
 git clone https://github.com/your-username/phonediary.git
 Navigate to the project directory:
 
-bash
-Copy code
+
 cd phonediary
 Install dependencies:
 
-bash
-Copy code
+
 npm install
 Install json-server globally:
 
-bash
-Copy code
+
 npm install -g json-server
 Start the json-server:
 
-bash
-Copy code
+
 json-server --watch db.json --port 5000
 Run the application:
 
-bash
-Copy code
+
 npm start
 Usage
 Open the application in your browser.
