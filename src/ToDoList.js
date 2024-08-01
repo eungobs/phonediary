@@ -1,8 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReminderModal from './ReminderModal';
-import './styles.css';
+import { Button, TextField, Select, MenuItem, InputLabel, FormControl, Container, CssBaseline, Box, Typography, Paper, AppBar, Toolbar, IconButton } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
+import './todo.css';
 
-function ToDoList({ navigate, onLogout }) {
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+function ToDoList({ onLogout }) {
+  const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [opened, setOpened] = useState(false);
   const [isReminderOpen, setIsReminderOpen] = useState(false);
@@ -12,15 +26,13 @@ function ToDoList({ navigate, onLogout }) {
   const taskTitle = useRef('');
   const taskSummary = useRef('');
   const taskDateTime = useRef('');
-  const taskPriority = useRef('Medium'); // Including priority if needed
+  const taskPriority = useRef('Medium');
 
-  // Fetch tasks from the database
+  // Fetch tasks from the server
   const fetchTasks = async () => {
     try {
-      const response = await fetch('/api/tasks');
-      if (!response.ok) throw new Error('Failed to fetch tasks');
-      const tasks = await response.json();
-      setTasks(tasks);
+      const response = await axios.get('http://localhost:3000/tasks');
+      setTasks(response.data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
     }
@@ -30,50 +42,35 @@ function ToDoList({ navigate, onLogout }) {
     fetchTasks();
   }, []);
 
-  // Create a new task in the database
+  // Create a new task and save it to the server
   const createTask = async () => {
     const newTask = {
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       dateTime: taskDateTime.current.value,
-      priority: taskPriority.current.value, // Include priority if needed
+      priority: taskPriority.current.value,
     };
 
-    console.log('Creating task:', newTask); // Debug log
-
     try {
-      const response = await fetch('/api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newTask),
-      });
-
-      if (!response.ok) throw new Error('Failed to create task');
-
-      const createdTask = await response.json();
-      setTasks([...tasks, createdTask]);
-      setOpened(false); // Close the modal after creating the task
+      await axios.post('http://localhost:3000/tasks', newTask);
+      setTasks([...tasks, newTask]);
+      setOpened(false);
     } catch (error) {
       console.error('Error creating task:', error);
     }
   };
 
-  // Delete a task from the database
+  // Delete a task and remove it from the server
   const deleteTask = async (taskId) => {
     try {
-      await fetch(`/api/tasks/${taskId}`, {
-        method: 'DELETE',
-      });
+      await axios.delete(`http://localhost:3000/tasks/${taskId}`);
       setTasks(tasks.filter(task => task.id !== taskId));
     } catch (error) {
       console.error('Error deleting task:', error);
     }
   };
 
-  // Search function
-  const filteredTasks = tasks.filter(task => 
+  const filteredTasks = tasks.filter(task =>
     task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     task.summary.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -97,73 +94,72 @@ function ToDoList({ navigate, onLogout }) {
   };
 
   return (
-    <div className='ToDoList'>
-      <div className='header-buttons'>
-        <button className='logout-button' onClick={onLogout}>Logout</button>
-        <button className='profile-button' onClick={() => navigate('profile')}>Profile</button>
-        <button className='home-button' onClick={() => navigate('Home')}>Home</button>
-      </div>
-      <div className='search-bar'>
-        <input
-          type='text'
-          placeholder='Search tasks...'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      {opened && (
-        <div className='modal'>
-          <div className='modal-content'>
-            <h2>New Task</h2>
-            <label>Title</label>
-            <input ref={taskTitle} placeholder='Task Title' required />
-            <label>Summary</label>
-            <input ref={taskSummary} placeholder='Task Summary' />
-            <label>Date and Time</label>
-            <input type='datetime-local' ref={taskDateTime} required />
-            <label>Priority</label>
-            <select ref={taskPriority} required>
-              <option value='Low'>Low</option>
-              <option value='Medium'>Medium</option>
-              <option value='High'>High</option>
-            </select>
-            <div className='modal-actions'>
-              <button onClick={() => setOpened(false)}>Cancel</button>
-              <button onClick={createTask}>Create Task</button>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className='tasks-container'>
-        <h1>My Tasks</h1>
-        {filteredTasks.length > 0 ? (
-          filteredTasks.map((task) => (
-            <div className={`task-card ${task.priority.toLowerCase()}`} key={task.id}>
-              <div className='task-header'>
-                <strong>{task.title}</strong>
-                <button className='delete-button' onClick={() => deleteTask(task.id)}>Delete</button>
-              </div>
-              <p>{task.summary || 'No summary was provided for this task'}</p>
-              <p>Reminder set for: {task.dateTime}</p>
-              <p>Priority: {task.priority}</p>
-            </div>
-          ))
-        ) : (
-          <p>You have no tasks</p>
-        )}
-        <button className='new-task-button' onClick={() => setOpened(true)}>New Task</button>
-      </div>
-      <ReminderModal
-        isOpen={isReminderOpen}
-        onClose={closeReminderModal}
-        task={currentTask}
-      />
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Container component="main">
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" onClick={onLogout}>Logout</Button>
+            <Button color="inherit" onClick={() => navigate('/profile')}>Profile</Button>
+            <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
+          </Toolbar>
+        </AppBar>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            placeholder="Search tasks..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            InputProps={{
+              endAdornment: <SearchIcon />,
+            }}
+          />
+          {opened && (
+            <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
+              <Typography component="h2" variant="h5">New Task</Typography>
+              <TextField inputRef={taskTitle} label="Title" fullWidth margin="normal" required />
+              <TextField inputRef={taskSummary} label="Summary" fullWidth margin="normal" />
+              <TextField inputRef={taskDateTime} label="Date and Time" type="datetime-local" fullWidth margin="normal" required InputLabelProps={{ shrink: true }} />
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Priority</InputLabel>
+                <Select inputRef={taskPriority} label="Priority" defaultValue="Medium">
+                  <MenuItem value="Low">Low</MenuItem>
+                  <MenuItem value="Medium">Medium</MenuItem>
+                  <MenuItem value="High">High</MenuItem>
+                </Select>
+              </FormControl>
+              <Box display="flex" justifyContent="space-between">
+                <Button variant="contained" color="secondary" onClick={() => setOpened(false)}>Cancel</Button>
+                <Button variant="contained" color="primary" onClick={createTask}>Create Task</Button>
+              </Box>
+            </Paper>
+          )}
+          <Box mt={2} width="100%">
+            <Typography component="h1" variant="h4" gutterBottom>My Tasks</Typography>
+            {filteredTasks.length > 0 ? (
+              filteredTasks.map((task) => (
+                <Paper key={task.id} elevation={3} sx={{ padding: 2, margin: 2 }}>
+                  <Box display="flex" justifyContent="space-between">
+                    <Typography variant="h6">{task.title}</Typography>
+                    <IconButton onClick={() => deleteTask(task.id)}><DeleteIcon /></IconButton>
+                  </Box>
+                  <Typography>{task.summary || 'No summary was provided for this task'}</Typography>
+                  <Typography>Reminder set for: {task.dateTime}</Typography>
+                  <Typography>Priority: {task.priority}</Typography>
+                </Paper>
+              ))
+            ) : (
+              <Typography>You have no tasks</Typography>
+            )}
+            <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => setOpened(true)}>New Task</Button>
+          </Box>
+        </Box>
+        <ReminderModal isOpen={isReminderOpen} onClose={closeReminderModal} task={currentTask} />
+      </Container>
+    </ThemeProvider>
   );
 }
 
 export default ToDoList;
-
-
-
-

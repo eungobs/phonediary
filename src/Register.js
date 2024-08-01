@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { initDatabase, addUser, getUserByEmail } from './database';
-import './styles.css';
+import { useNavigate } from 'react-router-dom';
+import './register.css';
 
-function Register({ navigate }) {
+function Register() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: '',
     surname: '',
@@ -42,14 +43,20 @@ function Register({ navigate }) {
 
     setLoading(true);
     try {
-      const db = await initDatabase();
-      const existingUser = await getUserByEmail(db, userData.email);
+      const response = await fetch(`http://localhost:3000/users?email=${userData.email}`);
+      const existingUsers = await response.json();
 
-      if (existingUser) {
+      if (existingUsers.length > 0) {
         setError('You already have an account.');
       } else {
-        await addUser(db, userData);
-        navigate('login');
+        await fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+        navigate('/login');
       }
     } catch (error) {
       console.error('Error adding user:', error);
@@ -93,4 +100,3 @@ function Register({ navigate }) {
 }
 
 export default Register;
-

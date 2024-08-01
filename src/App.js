@@ -1,49 +1,48 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import Register from './Register';
 import Login from './Login';
 import ToDoList from './ToDoList';
 import Profile from './Profile';
 import Logout from './Logout';
-import './styles.css';
+import UserList from './UserList';
+import EditUser from './EditUser';
+import ForgotPassword from './ForgotPassword'; // Import ForgotPassword component
+import ChangePassword from './ChangePassword'; // Import ChangePassword component
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-
-  const navigate = (page) => {
-    setCurrentPage(page);
-  };
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    sessionStorage.removeItem('authToken');
-    setCurrentPage('logout');
-  };
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <Home navigate={navigate} />;
-      case 'register':
-        return <Register navigate={navigate} />;
-      case 'login':
-        return <Login navigate={navigate} />;
-      case 'todo-list':
-        return <ToDoList navigate={navigate} onLogout={handleLogout} />;
-      case 'profile':
-        return <Profile navigate={navigate} />;
-      case 'logout':
-        return <Logout onLogout={handleLogout} />;
-      default:
-        return <Home navigate={navigate} />;
-    }
+    setIsLoading(true);
+    setTimeout(() => {
+      localStorage.removeItem('authToken');
+      sessionStorage.removeItem('authToken');
+      setIsLoading(false);
+      window.location.href = '/login';
+    }, 2000);
   };
 
   return (
-    <div className="app">
-      {renderPage()}
-    </div>
+    <Router>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Route for ForgotPassword */}
+          <Route path="/change-password" element={<ChangePassword />} /> {/* Route for ChangePassword */}
+          <Route path="/todo-list" element={<ToDoList onLogout={handleLogout} />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/logout" element={<Logout onLogout={handleLogout} isLoading={isLoading} />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/edit-user/:id" element={<EditUser />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
 export default App;
+

@@ -1,6 +1,6 @@
 // ReminderModal.js
 import React from 'react';
-import './styles.css';
+import './ReminderModal.css';
 
 function ReminderModal({ isOpen, onClose, task }) {
   if (!isOpen) return null;
