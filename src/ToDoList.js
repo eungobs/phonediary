@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios';
 import './todo.css';
 
 const darkTheme = createTheme({
@@ -28,6 +28,7 @@ function ToDoList({ onLogout }) {
   const taskDateTime = useRef('');
   const taskPriority = useRef('Medium');
 
+<<<<<<< HEAD
   // Fetch tasks from the server
   const fetchTasks = async () => {
     try {
@@ -36,21 +37,39 @@ function ToDoList({ onLogout }) {
     } catch (error) {
       console.error('Error fetching tasks:', error);
     }
+=======
+  // Mock fetch tasks function
+  const fetchTasks = () => {
+    
+    const mockTasks = [
+      { id: 1, title: 'Sample Task', summary: 'This is a sample task.', dateTime: '2024-01-01T12:00', priority: 'Medium' },
+      { id: 2, title: 'Another Task', summary: 'This is another task.', dateTime: '2024-01-02T12:00', priority: 'High' }
+      
+    ];
+    setTasks(mockTasks);
+
   };
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
+
   // Create a new task and save it to the server
   const createTask = async () => {
+
+  // Create a new task function
+  const createTask = () => {
+
     const newTask = {
+      id: Date.now(), 
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       dateTime: taskDateTime.current.value,
       priority: taskPriority.current.value,
     };
 
+<<<<<<< HEAD
     try {
       await axios.post('http://localhost:3000/tasks', newTask);
       setTasks([...tasks, newTask]);
@@ -68,6 +87,17 @@ function ToDoList({ onLogout }) {
     } catch (error) {
       console.error('Error deleting task:', error);
     }
+
+    console.log('Creating task:', newTask); 
+
+    setTasks([...tasks, newTask]);
+    setOpened(false); 
+  };
+
+  // Delete a task function
+  const deleteTask = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId));
+
   };
 
   const filteredTasks = tasks.filter(task =>
@@ -163,3 +193,4 @@ function ToDoList({ onLogout }) {
 }
 
 export default ToDoList;
+

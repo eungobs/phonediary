@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  width: 1460px; /* Set the width of the page to 1460 pixels */
+  width: 1460px; 
   margin: 0 auto;
   background: linear-gradient(
     45deg, 
@@ -15,7 +15,7 @@
     #0906c1 75%, 
     #0906c1
   );
-  background-size: 300% 300%; /* Adjust the size to create stripe effect */
+  background-size: 300% 300%; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
