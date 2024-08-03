@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ReminderModal from './ReminderModal';
 import { Button, TextField, Select, MenuItem, InputLabel, FormControl, Container, CssBaseline, Box, Typography, Paper, AppBar, Toolbar, IconButton } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Ensure axios is installed with npm install axios
+import axios from 'axios';
+import ReminderModal from './ReminderModal'; 
 import './todo.css';
 
 const darkTheme = createTheme({
@@ -28,7 +28,6 @@ function ToDoList({ onLogout }) {
   const taskDateTime = useRef('');
   const taskPriority = useRef('Medium');
 
-  // Fetch tasks from the JSON server
   const fetchTasks = async () => {
     try {
       const response = await axios.get('http://localhost:3000/tasks');
@@ -42,7 +41,6 @@ function ToDoList({ onLogout }) {
     fetchTasks();
   }, []);
 
-  // Create a new task and save it to the JSON server
   const createTask = async () => {
     const newTask = {
       id: Date.now(),
@@ -52,20 +50,23 @@ function ToDoList({ onLogout }) {
       priority: taskPriority.current.value,
     };
 
+    console.log('Creating task:', newTask);
+
     try {
-      await axios.post('http://localhost:3000/tasks', newTask);
-      setTasks([...tasks, newTask]);
+      const response = await axios.post('http://localhost:3000/tasks', newTask);
+      console.log('Task created successfully:', response.data);
+      setTasks((prevTasks) => [...prevTasks, response.data]);
       setOpened(false);
     } catch (error) {
       console.error('Error creating task:', error);
     }
   };
 
-  // Delete a task and remove it from the JSON server
   const deleteTask = async (taskId) => {
     try {
       await axios.delete(`http://localhost:3000/tasks/${taskId}`);
-      setTasks(tasks.filter(task => task.id !== taskId));
+      setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId));
+      console.log(`Task with id ${taskId} deleted successfully`);
     } catch (error) {
       console.error('Error deleting task:', error);
     }

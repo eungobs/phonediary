@@ -1,4 +1,3 @@
-// src/UserList.js
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, List, ListItem, ListItemText, Paper, Box, Button, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';

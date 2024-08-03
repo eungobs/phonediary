@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './register.css';
 
@@ -18,6 +18,7 @@ function Register() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [redirect, setRedirect] = useState(false); // State to control redirection
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,24 +31,27 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true); // Show loader
 
     if (!userData.email.includes('@')) {
       setError('Email must contain @');
+      setLoading(false);
       return;
     }
 
     if (!/^\d{10}$/.test(userData.phoneNumber)) {
       setError('Phone number must be 10 digits');
+      setLoading(false);
       return;
     }
 
-    setLoading(true);
     try {
       const response = await fetch(`http://localhost:3000/users?email=${userData.email}`);
       const existingUsers = await response.json();
 
       if (existingUsers.length > 0) {
         setError('You already have an account.');
+        setRedirect(true); // Set redirect state to true
       } else {
         await fetch('http://localhost:3000/users', {
           method: 'POST',
@@ -62,14 +66,31 @@ function Register() {
       console.error('Error adding user:', error);
       setError('Error adding user');
     } finally {
-      setLoading(false);
+      setLoading(false); // Hide loader
     }
   };
 
+  useEffect(() => {
+    if (redirect) {
+      // Redirect to the login page after showing the error
+      const timer = setTimeout(() => {
+        navigate('/login');
+      }, 2000); // Delay to show the error message
+
+      return () => clearTimeout(timer); // Cleanup timeout on component unmount
+    }
+  }, [redirect, navigate]);
+
   return (
     <div className="register-container">
-      {loading && <div className="loader">Loading...</div>}
-      {error && <div className="error-message">{error}</div>}
+      {loading && (
+        <div className="loader">
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+        </div>
+      )}
+      {error && !redirect && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <input type="text" name="name" value={userData.name} onChange={handleChange} placeholder="Name" required />
         <input type="text" name="surname" value={userData.surname} onChange={handleChange} placeholder="Surname" required />
@@ -100,3 +121,4 @@ function Register() {
 }
 
 export default Register;
+

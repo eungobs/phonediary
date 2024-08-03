@@ -31,6 +31,14 @@ function Login() {
     }
   };
 
+  const handleForgotPassword = () => {
+    navigate('/forgot-password');
+  };
+
+  const handleChangePassword = () => {
+    navigate('/change-password');
+  };
+
   return (
     <div className="login-screen">
       <div className="diary-text">Diary in your pocket</div>
@@ -54,6 +62,10 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
+      <div className="links">
+        <button onClick={handleForgotPassword} className="link">Forgot Password?</button>
+        <button onClick={handleChangePassword} className="link">Change Password</button>
+      </div>
     </div>
   );
 }

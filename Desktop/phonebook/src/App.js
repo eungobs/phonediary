@@ -6,8 +6,10 @@ import Login from './Login';
 import ToDoList from './ToDoList';
 import Profile from './Profile';
 import Logout from './Logout';
-import UserList from './UserList'; // Import UserList component
-import EditUser from './EditUser'; // Import EditUser component
+import UserList from './UserList'; 
+import EditUser from './EditUser'; 
+import ForgotPassword from './ForgotPassword'; 
+import ChangePassword from './ChangePassword'; 
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +37,8 @@ function App() {
           <Route path="/logout" element={<Logout onLogout={handleLogout} isLoading={isLoading} />} />
           <Route path="/users" element={<UserList />} /> {/* Route for UserList */}
           <Route path="/edit-user/:id" element={<EditUser />} /> {/* Route for EditUser */}
+          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Route for ForgotPassword */}
+          <Route path="/change-password" element={<ChangePassword />} /> {/* Route for ChangePassword */}
         </Routes>
       </div>
     </Router>

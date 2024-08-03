@@ -95,6 +95,24 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+/* Additional styles for link-like buttons */
+.links {
+  margin-top: 1rem;
+}
+
+.link {
+  display: block;
+  color: #007bff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  margin: 0.5rem 0;
+}
+
+.link:hover {
+  color: #0056b3;
+}
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1200px) {

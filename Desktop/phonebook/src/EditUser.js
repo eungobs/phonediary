@@ -1,4 +1,3 @@
-// src/EditUser.js
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography, Paper, Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';

@@ -1,4 +1,3 @@
-// ReminderModal.js
 import React from 'react';
 import './ReminderModal.css';
 

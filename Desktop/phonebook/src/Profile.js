@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Button, TextField, Avatar, Grid, Box } from '@mui/material';
 import { styled } from '@mui/system';
+import axios from 'axios';
 
 // Styled components with responsive design considerations
 const ProfileContainer = styled(Container)({
@@ -33,7 +34,7 @@ const ProfileImage = styled(Avatar)({
   height: '120px',
   borderRadius: '50%',
   objectFit: 'cover',
-  border: `5px solid #1976d2`,
+  border: '5px solid #1976d2',
   '@media (max-width: 600px)': {
     width: '100px',
     height: '100px',
@@ -64,6 +65,30 @@ const BackButton = styled(Button)({
   marginBottom: '16px',
 });
 
+const Loader = styled('div')({
+  marginTop: '16px',
+  display: 'flex',
+  justifyContent: 'center',
+  '& > div': {
+    width: '10px',
+    height: '10px',
+    margin: '0 2px',
+    borderRadius: '50%',
+    backgroundColor: 'green',
+    animation: 'loader-animation 0.6s infinite alternate',
+  },
+  '@keyframes loader-animation': {
+    '0%': { opacity: 0.2 },
+    '100%': { opacity: 1 },
+  },
+  '& > div:nth-of-type(2)': {
+    animationDelay: '0.2s',
+  },
+  '& > div:nth-of-type(3)': {
+    animationDelay: '0.4s',
+  },
+});
+
 function Profile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
@@ -79,10 +104,23 @@ function Profile() {
     interests: '',
     profileImage: '',
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Placeholder for future data fetching logic
+    const storedData = localStorage.getItem('userData');
+    if (storedData) {
+      setUserData(JSON.parse(storedData));
+    } else {
+      // Fetch user data from the server
+      axios.get('http://localhost:3000/users/1')
+        .then(response => setUserData(response.data))
+        .catch(error => console.error('Error fetching user data:', error));
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }, [userData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -107,8 +145,16 @@ function Profile() {
   };
 
   const handleSave = () => {
-    console.log('Profile data to save:', userData);
-    alert('Profile updated successfully!');
+    setLoading(true);
+    axios.put(`http://localhost:3000/users/${userData.id}`, userData)
+      .then(() => {
+        setLoading(false);
+        alert('Profile updated successfully!');
+      })
+      .catch(error => {
+        setLoading(false);
+        console.error('Error saving profile data:', error);
+      });
   };
 
   const handleBackClick = () => {
@@ -219,10 +265,21 @@ function Profile() {
         </Grid>
       </Box>
       <SaveButton onClick={handleSave} variant="contained" color="primary">
-        Save
+        {loading ? (
+          <Loader>
+            <div></div>
+            <div></div>
+            <div></div>
+          </Loader>
+        ) : (
+          'Save'
+        )}
       </SaveButton>
     </ProfileContainer>
   );
 }
 
 export default Profile;
+
+
+
