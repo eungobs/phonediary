@@ -1,0 +1,143 @@
+.todo-container {
+  padding: 20px;
+  background-color: rgb(225, 212, 212);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.task-card.low {
+  border-left: 5px solid green;
+}
+
+.task-card.medium {
+  border-left: 5px solid yellow;
+}
+
+.task-card.high {
+  border-left: 5px solid red;
+}
+
+.task-card {
+  background: #f9f9f9;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-field {
+  margin-bottom: 20px;
+}
+
+.new-task-section {
+  margin-bottom: 20px;
+}
+
+.new-task-section .MuiFormControl-root {
+  margin-bottom: 10px;
+}
+
+.new-task-section button {
+  margin-top: 10px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1200px) {
+  .todo-container {
+    padding: 18px;
+  }
+
+  .task-card {
+    padding: 14px;
+  }
+
+  .new-task-section {
+    gap: 1.8rem;
+  }
+
+  .new-task-section .MuiFormControl-root,
+  .new-task-section button,
+  .search-field {
+    margin-bottom: 1.8rem;
+  }
+}
+
+@media (max-width: 740px) {
+  .todo-container {
+    padding: 15px;
+  }
+
+  .task-card {
+    padding: 12px;
+  }
+
+  .new-task-section {
+    gap: 1.5rem;
+  }
+
+  .new-task-section .MuiFormControl-root,
+  .new-task-section button,
+  .search-field {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .todo-container {
+    padding: 10px;
+  }
+
+  .task-card {
+    padding: 10px;
+  }
+
+  .new-task-section {
+    gap: 1rem;
+  }
+
+  .new-task-section .MuiFormControl-root,
+  .new-task-section button,
+  .search-field {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .todo-container {
+    padding: 8px;
+  }
+
+  .task-card {
+    padding: 9px;
+  }
+
+  .new-task-section {
+    gap: 0.8rem;
+  }
+
+  .new-task-section .MuiFormControl-root,
+  .new-task-section button,
+  .search-field {
+    margin-bottom: 0.8rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .todo-container {
+    padding: 5px;
+  }
+
+  .task-card {
+    padding: 8px;
+  }
+
+  .new-task-section {
+    gap: 0.5rem;
+  }
+
+  .new-task-section .MuiFormControl-root,
+  .new-task-section button,
+  .search-field {
+    margin-bottom: 0.5rem;
+  }
+}
