@@ -8,34 +8,16 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     setError('');
 
     if (email && password) {
-      try {
-        const response = await fetch('http://localhost:3000/users/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          localStorage.setItem('authToken', result.token);
-          window.location.href = '/todo-list'; // Redirect to the ToDoList page or your desired page
-        } else {
-          setError(result.error);
-        }
-      } catch (error) {
-        console.error('Error logging in:', error);
-        setError('Error logging in');
-      }
+      // Allow login with any email and password
+      localStorage.setItem('user', JSON.stringify({ email })); // Store user info in localStorage
+      window.location.href = '/todo-list'; // Redirect to the ToDoList page or your desired page
     } else {
-      setError('Please enter both email and password.');
+      setError('Please enter email and password.');
     }
   };
 
