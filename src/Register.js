@@ -1,8 +1,12 @@
+// src/Register.js
 import React, { useState } from 'react';
-import { initDatabase, addUser, getUserByEmail } from './database';
-import './styles.css';
+import { useNavigate } from 'react-router-dom';
+import { TextField, Button, CircularProgress, Typography, Box } from '@mui/material';
+import './register.css';
+import { addUser } from './db'; // Import the function to add a user
 
-function Register({ navigate }) {
+function Register() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: '',
     surname: '',
@@ -13,7 +17,8 @@ function Register({ navigate }) {
     phoneNumber: '',
     email: '',
     interests: '',
-    profileImage: ''
+    profileImage: '',
+    password: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -26,71 +31,160 @@ function Register({ navigate }) {
     }));
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserData((prevData) => ({
+          ...prevData,
+          profileImage: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (!userData.email.includes('@')) {
-      setError('Email must contain @');
-      return;
-    }
-
-    if (!/^\d{10}$/.test(userData.phoneNumber)) {
-      setError('Phone number must be 10 digits');
-      return;
-    }
-
+    // Save user data without validation for simplicity
     setLoading(true);
     try {
-      const db = await initDatabase();
-      const existingUser = await getUserByEmail(db, userData.email);
-
-      if (existingUser) {
-        setError('You already have an account.');
-      } else {
-        await addUser(db, userData);
-        navigate('login');
-      }
+      addUser(userData); // Add the user to the database
+      navigate('/login'); // Navigate to login page upon successful registration
     } catch (error) {
-      console.error('Error adding user:', error);
-      setError('Error adding user');
+      console.error('Error during registration:', error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="register-container">
-      {loading && <div className="loader">Loading...</div>}
-      {error && <div className="error-message">{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" value={userData.name} onChange={handleChange} placeholder="Name" required />
-        <input type="text" name="surname" value={userData.surname} onChange={handleChange} placeholder="Surname" required />
-        <input type="text" name="gender" value={userData.gender} onChange={handleChange} placeholder="Gender" required />
-        <input type="date" name="dob" value={userData.dob} onChange={handleChange} placeholder="Date of Birth" required />
-        <input type="text" name="country" value={userData.country} onChange={handleChange} placeholder="Country" required />
-        <input type="text" name="occupation" value={userData.occupation} onChange={handleChange} placeholder="Occupation" required />
-        <input type="tel" name="phoneNumber" value={userData.phoneNumber} onChange={handleChange} placeholder="Phone Number" required />
-        <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
-        <input type="text" name="interests" value={userData.interests} onChange={handleChange} placeholder="Interests" required />
-        <input type="file" accept="image/*" onChange={(e) => {
-          const file = e.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setUserData((prevData) => ({
-                ...prevData,
-                profileImage: reader.result,
-              }));
-            };
-            reader.readAsDataURL(file);
-          }
-        }} />
-        <button type="submit">Register</button>
-      </form>
+    <div className="register-screen">
+      {loading && <CircularProgress />}
+      {error && <Typography color="error">{error}</Typography>}
+      <Typography variant="h4" gutterBottom>
+       
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '1000px', maxHeight: '700px', overflowY: 'auto' }}>
+        <TextField
+          label="Name"
+          name="name"
+          value={userData.name}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Surname"
+          name="surname"
+          value={userData.surname}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Gender"
+          name="gender"
+          value={userData.gender}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Date of Birth"
+          name="dob"
+          type="date"
+          value={userData.dob}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+          required
+        />
+        <TextField
+          label="Country"
+          name="country"
+          value={userData.country}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Occupation"
+          name="occupation"
+          value={userData.occupation}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Phone Number"
+          name="phoneNumber"
+          type="tel"
+          value={userData.phoneNumber}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Email"
+          name="email"
+          type="email"
+          value={userData.email}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Interests"
+          name="interests"
+          value={userData.interests}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <TextField
+          label="Password"
+          name="password"
+          type="password"
+          value={userData.password}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          required
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          style={{ marginTop: '1rem' }}
+        />
+        <Button type="submit" variant="contained" color="primary" sx={{ marginTop: '1rem' }}>
+          Register
+        </Button>
+      </Box>
     </div>
   );
 }
 
 export default Register;
+
+
+
+
+
+
+
+
 
