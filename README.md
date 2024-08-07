@@ -67,4 +67,4 @@ VSCode for being a powerful and flexible code editor.
 GitHub for version control and deployment.
 Figma for sketching and designing the UI.
 
-![Untitled (4)](https://github.com/user-attachments/assets/3583ab07-6261-4a0f-9779-c28eb03545eb) 
+![Untitled (6)](https://github.com/user-attachments/assets/39bfd622-d82c-4f01-9c03-1302fd53e5d4) 
