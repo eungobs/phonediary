@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Container } from '@mui/material';
 import './changePassword.css';
 
+
 function ChangePassword() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function ChangePassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -20,10 +22,12 @@ function ChangePassword() {
     });
   };
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
     setSuccess('');
+
 
     if (formData.oldPassword && formData.newPassword) {
       try {
@@ -35,7 +39,9 @@ function ChangePassword() {
           body: JSON.stringify(formData),
         });
 
+
         const result = await response.json();
+
 
         if (response.ok) {
           setSuccess('Password changed successfully!');
@@ -51,6 +57,7 @@ function ChangePassword() {
       setError('Please fill in both fields.');
     }
   };
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -99,5 +106,6 @@ function ChangePassword() {
     </Container>
   );
 }
+
 
 export default ChangePassword;
