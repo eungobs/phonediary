@@ -1,0 +1,94 @@
+* Container for the profile page */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+/* Container for the profile image */
+.profile-image-container {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+
+/* Styles for the profile image */
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid #1976d2;
+}
+
+
+/* Styles for the image input */
+.profile-image-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+/* Styles for the save button */
+.save-button {
+  margin-top: 16px;
+  width: 100%;
+}
+
+
+/* Styles for the back button */
+.back-button {
+  align-self: flex-start;
+  margin-bottom: 16px;
+}
+
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 16px;
+    max-width: 100%;
+  }
+
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .profile-container {
+    padding: 12px;
+  }
+
+
+  .profile-image {
+    width: 80px;
+    height: 80px;
+  }
+}
+@media (max-width: 340px) {
+  .profile-container {
+    padding: 12px;
+  }
+
+
+  .profile-image {
+    width: 40px;
+    height: 40px;
+  }
+}
+
