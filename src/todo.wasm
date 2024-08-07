@@ -1,0 +1,18 @@
+const wasmFile = './db/todo.wasm'; // Updated path
+
+async function loadWasm() {
+  const response = await fetch(wasmFile);
+  const buffer = await response.arrayBuffer();
+  const module = await WebAssembly.compile(buffer);
+  const instance = await WebAssembly.instantiate(module);
+
+  // Access exported functions
+  const { add_task, get_task_count, clear_tasks, init } = instance.exports;
+
+  // Example usage
+  add_task('Task Title', 'Task Description', 1);
+  console.log(get_task_count());
+  clear_tasks();
+}
+
+loadWasm();
