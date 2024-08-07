@@ -6,8 +6,10 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './home.css';
 
+
 function Home() {
   const navigate = useNavigate();
+
 
   return (
     <Container className="home-screen">
@@ -52,6 +54,7 @@ function Home() {
     </Container>
   );
 }
+
 
 export default Home;
 
