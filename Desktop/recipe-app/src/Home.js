@@ -6,6 +6,7 @@ import './Home.css';
 const Home = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [cookieVisible, setCookieVisible] = useState(true); // State to manage cookie popup visibility
 
   const navigate = useNavigate(); // Hook for navigation
 
@@ -85,8 +86,30 @@ const Home = () => {
     setSelectedRecipe(null);
   };
 
+  const handleCookieAccept = () => {
+    setCookieVisible(false);
+  };
+
+  const handleCookieDecline = () => {
+    setCookieVisible(false);
+    // Optionally, add logic for what happens if cookies are declined
+  };
+
   return (
     <Container className="home" maxWidth={false} disableGutters>
+      {/* Cookie Consent Popup */}
+      {cookieVisible && (
+        <Box className="cookie-popup">
+          <Typography variant="body2">
+            This website uses cookies to ensure you get the best experience. We may update our recipe list and use your data to help us improve. Do you accept?
+          </Typography>
+          <Box sx={{ mt: 2 }}>
+            <Button onClick={handleCookieAccept} color="primary" sx={{ mr: 1 }}>Accept</Button>
+            <Button onClick={handleCookieDecline} color="secondary">Decline</Button>
+          </Box>
+        </Box>
+      )}
+
       <Typography variant="h4" align="center" gutterBottom sx={{ color: 'white', mb: 4 }}>
         <strong>Welcome to Smart Recipe!</strong>
       </Typography>
@@ -139,11 +162,11 @@ const Home = () => {
           </Typography>
           <Typography variant="body2">{selectedRecipe?.category}</Typography>
           <Typography variant="body1" gutterBottom>
-            <strong>Preparation Time:</strong>
+            <strong>Prep Time:</strong>
           </Typography>
           <Typography variant="body2">{selectedRecipe?.prepTime}</Typography>
           <Typography variant="body1" gutterBottom>
-            <strong>Cooking Time:</strong>
+            <strong>Cook Time:</strong>
           </Typography>
           <Typography variant="body2">{selectedRecipe?.cookTime}</Typography>
           <Typography variant="body1" gutterBottom>
@@ -152,10 +175,10 @@ const Home = () => {
           <Typography variant="body2">{selectedRecipe?.servings}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">Close</Button>
+          <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
-      <Box className="footer" sx={{ textAlign: 'center', padding: '16px', bgcolor: '#f5f5f5', position: 'absolute', bottom: 0, width: '100%' }}>
+      <Box className="footer" sx={{ position: 'absolute', bottom: 0, width: '100%', bgcolor: 'rgba(0, 0, 0, 0.5)', color: 'white', textAlign: 'center', p: 2 }}>
         <Typography variant="body2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black' }}>
           By EE. Ndzukule @2024
         </Typography>
@@ -165,6 +188,5 @@ const Home = () => {
 };
 
 export default Home;
-
 
 
