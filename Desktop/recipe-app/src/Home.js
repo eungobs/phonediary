@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Typography, Container, Box, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; // Added for React Router navigation
 import './Home.css';
 
 const Home = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  const navigate = useNavigate(); // Hook for navigation
 
   const images = [
     "https://img.freepik.com/free-photo/penne-pasta-tomato-sauce-with-chicken-tomatoes-wooden-table_2829-19744.jpg?t=st=1723380227~exp=1723383827~hmac=723721196720d6d95c59441722f0e959789b1c6c342eb14dd5bac3e76feaef30&w=996",
@@ -33,7 +36,7 @@ const Home = () => {
       category: 'Appetiser',
       prepTime: '10 minutes',
       cookTime: '15 minutes',
-      servings: '2'
+      servings: '4'
     },
     {
       name: 'Vegetable Soup',
@@ -43,7 +46,7 @@ const Home = () => {
       category: 'Starter',
       prepTime: '15 minutes',
       cookTime: '30 minutes',
-      servings: '6'
+      servings: '9'
     },
     {
       name: 'Beef Stroganoff',
@@ -63,7 +66,7 @@ const Home = () => {
       category: 'Dessert',
       prepTime: '20 minutes',
       cookTime: '30 minutes',
-      servings: '8'
+      servings: '15'
     }
   ];
 
@@ -85,7 +88,7 @@ const Home = () => {
   return (
     <Container className="home" maxWidth={false} disableGutters>
       <Typography variant="h4" align="center" gutterBottom sx={{ color: 'white', mb: 4 }}>
-        <strong>Welcome to Recipe App!</strong>
+        <strong>Welcome to Smart Recipe!</strong>
       </Typography>
       <Typography variant="body1" align="center" className="paragraph">
         <strong>Explore our collection of delicious recipes! Whether you're looking to add new dishes to your meal plan or find inspiration for your next culinary adventure, our app offers a variety of recipes to suit your tastes.</strong>
@@ -103,16 +106,16 @@ const Home = () => {
         </List>
       </Box>
       <Box className="image-slider">
-        <img src={images[currentImage]} alt="Food" />
+        <img src={images[currentImage]} alt={`Featured Recipe ${currentImage + 1}`} />
       </Box>
       <Box className="links" display="flex" justifyContent="center" gap={2}>
-        <Button variant="contained" color="primary" href="/register">
+        <Button variant="contained" color="primary" onClick={() => navigate('/register')}>
           Register
         </Button>
-        <Button variant="contained" color="secondary" href="/login">
+        <Button variant="contained" color="secondary" onClick={() => navigate('/login')}>
           Login
         </Button>
-        <Button variant="contained" color="success" href="/add-recipe">
+        <Button variant="contained" color="success" onClick={() => navigate('/add-recipe')}>
           Add Recipe
         </Button>
       </Box>
@@ -157,3 +160,4 @@ const Home = () => {
 };
 
 export default Home;
+

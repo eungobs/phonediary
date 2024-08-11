@@ -1,0 +1,244 @@
+/* AddRecipe.css */
+
+.container {
+  background-color: #030000;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 1200px; /* Limit the width on larger screens */
+  margin: 0 auto; /* Center the container */
+}
+
+.paper {
+  padding: 20px;
+}
+
+.search-bar {
+  margin-top: 20px;
+}
+
+.recipe-card {
+  margin-bottom: 20px;
+}
+
+.recipe-details {
+  margin-bottom: 10px;
+}
+
+.recipe-category,
+.recipe-time,
+.recipe-servings {
+  margin-top: 5px;
+}
+
+.button {
+  margin-top: 20px;
+}
+
+.header {
+  margin-top: 40px;
+}
+
+.form-field {
+  margin: 10px 0;
+}
+
+body, .container, .paper, .search-bar, .recipe-card, .recipe-details, .recipe-category, .recipe-time, .recipe-servings, .button, .header, .form-field {
+  color: #000000; 
+}
+
+/* Responsive styles */
+
+
+@media (max-width: 1200px) {
+  .container {
+    padding: 15px;
+  }
+
+  .paper {
+    padding: 15px;
+  }
+
+  .search-bar {
+    margin-top: 15px;
+  }
+
+  .recipe-card {
+    margin-bottom: 15px;
+  }
+
+  .recipe-details {
+    margin-bottom: 8px;
+  }
+
+  .button {
+    margin-top: 15px;
+  }
+
+  .header {
+    margin-top: 30px;
+  }
+}
+
+/* Styles for screens up to 900px wide */
+@media (max-width: 900px) {
+  .container {
+    padding: 10px;
+  }
+
+  .paper {
+    padding: 10px;
+  }
+
+  .search-bar {
+    margin-top: 10px;
+  }
+
+  .recipe-card {
+    margin-bottom: 10px;
+  }
+
+  .recipe-details {
+    margin-bottom: 5px;
+  }
+
+  .button {
+    margin-top: 10px;
+  }
+
+  .header {
+    margin-top: 20px;
+  }
+
+  .form-field {
+    margin: 5px 0;
+  }
+}
+
+/* Styles for screens up to 600px wide */
+@media (max-width: 600px) {
+  .container {
+    padding: 5px;
+  }
+
+  .paper {
+    padding: 5px;
+  }
+
+  .search-bar {
+    margin-top: 5px;
+  }
+
+  .recipe-card {
+    margin-bottom: 5px;
+  }
+
+  .recipe-details {
+    margin-bottom: 3px;
+  }
+
+  .button {
+    margin-top: 5px;
+  }
+
+  .header {
+    margin-top: 10px;
+  }
+
+  .form-field {
+    margin: 2px 0;
+  }
+
+  /* Stack the form and recipe list vertically on smaller screens */
+  .recipe-list {
+    margin-top: 20px;
+  }
+}
+
+/* Styles for screens up to 480px wide */
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+
+  .paper {
+    padding: 5px;
+  }
+
+  .search-bar {
+    margin-top: 5px;
+  }
+
+  .recipe-card {
+    margin-bottom: 5px;
+    font-size: 14px; /* Adjust font size for better readability */
+  }
+
+  .recipe-details {
+    margin-bottom: 3px;
+    font-size: 12px; 
+
+  .button {
+    margin-top: 5px;
+    font-size: 14px; 
+  }
+
+  .header {
+    margin-top: 10px;
+    font-size: 18px; 
+  }
+
+  .form-field {
+    margin: 2px 0;
+    font-size: 14px; 
+  }
+
+ 
+  .recipe-list {
+    margin-top: 15px;
+  }
+}
+
+/
+@media (max-width: 320px) {
+  .container {
+    padding: 2px;
+  }
+
+  .paper {
+    padding: 2px;
+  }
+
+  .search-bar {
+    margin-top: 2px;
+  }
+
+  .recipe-card {
+    margin-bottom: 2px;
+    font-size: 12px; 
+  }
+
+  .recipe-details {
+    margin-bottom: 1px;
+    font-size: 10px; 
+  }
+
+  .button {
+    margin-top: 2px;
+    font-size: 12px; 
+  }
+
+  .header {
+    margin-top: 5px;
+    font-size: 16px; 
+  }
+
+  .form-field {
+    margin: 1px 0;
+    font-size: 12px; 
+  }
+
+  
+  .recipe-list {
+    margin-top: 10px;
+  }
+}
