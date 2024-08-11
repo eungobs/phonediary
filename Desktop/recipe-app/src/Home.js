@@ -108,7 +108,7 @@ const Home = () => {
       <Box className="image-slider">
         <img src={images[currentImage]} alt={`Featured Recipe ${currentImage + 1}`} />
       </Box>
-      <Box className="links" display="flex" justifyContent="center" gap={2}>
+      <Box className="links" display="flex" justifyContent="center" gap={2} mb={4}>
         <Button variant="contained" color="primary" onClick={() => navigate('/register')}>
           Register
         </Button>
@@ -155,9 +155,16 @@ const Home = () => {
           <Button onClick={handleClose} color="primary">Close</Button>
         </DialogActions>
       </Dialog>
+      <Box className="footer" sx={{ textAlign: 'center', padding: '16px', bgcolor: '#f5f5f5', position: 'absolute', bottom: 0, width: '100%' }}>
+        <Typography variant="body2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black' }}>
+          By EE. Ndzukule @2024
+        </Typography>
+      </Box>
     </Container>
   );
 };
 
 export default Home;
+
+
 
