@@ -1,0 +1,74 @@
+.home {
+  position: relative;
+  padding: 20px;
+  background-color: #333;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.paragraph {
+  max-width: 800px;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  
+  /* New styles for centering, color, and boldness */
+  font-weight: bold;
+  color: #ffcc00; /* Change this color to your preference */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.recipe-list-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  max-width: 300px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.recipe-list .MuiListItem-root {
+  padding: 8px 16px;
+  border-bottom: 1px solid #555;
+}
+
+.recipe-list .MuiListItemText-primary {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.image-slider {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.image-slider img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.links {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+

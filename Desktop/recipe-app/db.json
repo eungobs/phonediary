@@ -1,0 +1,61 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "name": "Tihove",
+      "ingredients": "500 g samp, 1 cup brown beans, 2 cups peanut powder, 1 sachet benny spice or salt, 1.5 liters water",
+      "instructions": "1. Rinse samp and brown beans, then boil on medium heat for 1 hour or more. 2. While there's still water, add peanut powder, close the lid, and let it steam for 10-15 minutes. 3. Add benny spice or salt, and mash it well until combined or soft. 4. Serve and enjoy as it is.",
+      "category": "Main Course",
+      "prepTime": "10 mins",
+      "cookTime": "2 hours",
+      "servings": 6
+    },
+    {
+      "id": 2,
+      "name": "Spaghetti Carbonara",
+      "ingredients": "Spaghetti, eggs, pancetta, Parmesan cheese, black pepper",
+      "instructions": "1. Cook spaghetti. 2. Fry pancetta until crispy. 3. Beat eggs and mix with Parmesan cheese. 4. Combine spaghetti with pancetta, then add the egg mixture and toss to coat. 5. Season with black pepper and serve.",
+      "category": "Main Course",
+      "prepTime": "10 mins",
+      "cookTime": "20 mins",
+      "servings": 4
+    },
+    {
+      "id": 3,
+      "name": "Chocolate Chip Cookies",
+      "ingredients": "2 1/4 cups all-purpose flour, 1/2 teaspoon baking soda, 1 cup unsalted butter, 1/2 cup granulated sugar, 1 cup packed brown sugar, 1 teaspoon vanilla extract, 2 large eggs, 2 cups semisweet chocolate chips",
+      "instructions": "1. Preheat oven to 350°F (175°C). 2. Mix flour and baking soda in a bowl. 3. Beat butter, granulated sugar, brown sugar, and vanilla extract until creamy. 4. Add eggs one at a time, beating well after each addition. 5. Gradually add flour mixture, then stir in chocolate chips. 6. Drop dough by rounded tablespoons onto baking sheets. 7. Bake for 10-12 minutes or until golden brown.",
+      "category": "Dessert",
+      "prepTime": "15 mins",
+      "cookTime": "10 mins",
+      "servings": 24
+    },
+    {
+      "id": 4,
+      "name": "Caesar Salad",
+      "ingredients": "Romaine lettuce, croutons, Parmesan cheese, Caesar dressing",
+      "instructions": "1. Tear lettuce into bite-sized pieces. 2. Toss with Caesar dressing until evenly coated. 3. Add croutons and Parmesan cheese. 4. Serve immediately.",
+      "category": "Appetizer",
+      "prepTime": "10 mins",
+      "cookTime": "0 mins",
+      "servings": 4
+    },
+    {
+      "id": 5,
+      "name": "Beef Stroganoff",
+      "ingredients": "500 g beef sirloin, 1 onion, 2 cloves garlic, 1 cup sour cream, 1 cup beef broth, 1 tablespoon flour, 2 tablespoons butter, salt and pepper to taste",
+      "instructions": "1. Slice beef into strips and season with salt and pepper. 2. Heat butter in a pan and brown the beef. 3. Remove beef and set aside. 4. In the same pan, sauté onion and garlic. 5. Add flour and cook for 1 minute. 6. Stir in beef broth and bring to a simmer. 7. Return beef to the pan and cook until done. 8. Stir in sour cream and cook until heated through. 9. Serve over egg noodles or rice.",
+      "category": "Main Course",
+      "prepTime": "15 mins",
+      "cookTime": "30 mins",
+      "servings": 4
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "password123"
+    }
+  ]
+}
