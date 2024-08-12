@@ -4,6 +4,7 @@ import Home from './Home';
 import Registration from './Registration';
 import Login from './Login';
 import AddRecipe from './AddRecipe';
+import About from './About'; // Import About component
 
 function App() {
   const [recipes, setRecipes] = useState([
@@ -46,6 +47,7 @@ function App() {
         <Route path="/register" element={<Registration />} />
         <Route path="/login" element={<Login />} />
         <Route path="/add-recipe" element={<AddRecipe onAddRecipe={addRecipe} />} />
+        <Route path="/about" element={<About />} /> {/* Add About route */}
         {/* Add routes for Update and Delete as needed */}
       </Routes>
     </Router>
@@ -53,4 +55,5 @@ function App() {
 }
 
 export default App;
+
 

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Typography, Container, Box, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; // Added for React Router navigation
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import './Home.css';
 
 const Home = () => {
@@ -95,18 +99,10 @@ const Home = () => {
     // Optionally, add logic for what happens if cookies are declined
   };
 
-  // Function to check if the user is logged in
+  // eslint-disable-next-line no-unused-vars
   const isUserLoggedIn = () => {
     // Replace this logic with your actual authentication check
     return !!localStorage.getItem('user'); // Example check for user existence in localStorage
-  };
-
-  const handleAddRecipeClick = () => {
-    if (!isUserLoggedIn()) {
-      navigate('/login'); // Redirect to login if user is not logged in
-    } else {
-      navigate('/add-recipe'); // Redirect to add-recipe page if user is logged in
-    }
   };
 
   return (
@@ -153,41 +149,62 @@ const Home = () => {
           <Button variant="contained" color="secondary" onClick={() => navigate('/login')}>
             Login
           </Button>
-          <Button variant="contained" color="success" onClick={handleAddRecipeClick}>
-            Add Recipe
-          </Button>
         </Box>
-        <Typography variant="body2" color="textSecondary">
-          @2024 Smart Recipe. All rights reserved
-        </Typography>
+        <Button variant="outlined" color="primary" onClick={() => navigate('/about')}>
+          About Us
+        </Button>
+        <Box mt={2}>
+          <Typography variant="body2" align="center" sx={{ color: 'white' }}>
+            @2024 Smart Recipe. All rights reserved
+          </Typography>
+        </Box>
       </Box>
+      {/* Social Media Icons */}
+      <Box className="social-media-icons" display="flex" justifyContent="center" mt={2}>
+        <Button color="inherit" href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <FacebookIcon />
+        </Button>
+        <Button color="inherit" href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <TwitterIcon />
+        </Button>
+        <Button color="inherit" href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <InstagramIcon />
+        </Button>
+        <Button color="inherit" href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+          <LinkedInIcon />
+        </Button>
+      </Box>
+
+      {/* Recipe Details Dialog */}
       <Dialog open={!!selectedRecipe} onClose={handleClose}>
         <DialogTitle>{selectedRecipe?.name}</DialogTitle>
         <DialogContent>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body1" gutterBottom>
             <strong>Details:</strong> {selectedRecipe?.details}
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body2" gutterBottom>
             <strong>Ingredients:</strong> {selectedRecipe?.ingredients.join(', ')}
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body2" gutterBottom>
             <strong>Instructions:</strong> {selectedRecipe?.instructions}
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body2" gutterBottom>
             <strong>Category:</strong> {selectedRecipe?.category}
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body2" gutterBottom>
             <strong>Preparation Time:</strong> {selectedRecipe?.prepTime}
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body2" gutterBottom>
             <strong>Cooking Time:</strong> {selectedRecipe?.cookTime}
           </Typography>
-          <Typography variant="body1" paragraph>
+          <Typography variant="body2" gutterBottom>
             <strong>Servings:</strong> {selectedRecipe?.servings}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </Container>
@@ -195,6 +212,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
