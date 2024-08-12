@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility'; // Import View Icon
 import { useNavigate } from 'react-router-dom'; // Added for navigation
 
 const categories = ['Breakfast', 'Lunch', 'Dinner'];
@@ -35,6 +36,7 @@ const AddRecipe = () => {
   const [servings, setServings] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [editIndex, setEditIndex] = useState(-1);
+  const [viewIndex, setViewIndex] = useState(-1); // State for viewing recipe
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate(); // Hook for navigation
@@ -94,6 +96,11 @@ const AddRecipe = () => {
     setOpen(false);
   };
 
+  const handleViewRecipe = (index) => {
+    setViewIndex(index);
+    setOpen(true);
+  };
+
   const clearFields = () => {
     setName('');
     setDetails('');
@@ -112,6 +119,7 @@ const AddRecipe = () => {
 
   const handleCloseDialog = () => {
     setEditIndex(-1);
+    setViewIndex(-1); // Clear viewIndex when closing
     setOpen(false);
   };
 
@@ -235,7 +243,7 @@ const AddRecipe = () => {
             backgroundColor: '#e0e0e0',
             borderRadius: 1,
             p: 2,
-            color: '#000000', /* Dark black color for text */
+            color: '#000000',
           }}
         >
           <Typography variant="h6" gutterBottom>
@@ -249,15 +257,22 @@ const AddRecipe = () => {
                   <>
                     <IconButton
                       edge="end"
+                      onClick={() => handleViewRecipe(index)}
+                      sx={{ color: '#4caf50', mr: 1 }} 
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
+                    <IconButton
+                      edge="end"
                       onClick={() => handleOpenDialog(index)}
-                      sx={{ color: '#2196f3', mr: 1 }} // Blue color for edit icon
+                      sx={{ color: '#2196f3', mr: 1 }}
                     >
                       <EditIcon />
                     </IconButton>
                     <IconButton
                       edge="end"
                       onClick={() => handleDeleteRecipe(index)}
-                      sx={{ color: '#f44336' }} // Red color for delete icon
+                      sx={{ color: '#f44336' }}
                     >
                       <DeleteIcon />
                     </IconButton>
@@ -295,22 +310,52 @@ const AddRecipe = () => {
             <strong>Category:</strong> {recipes[editIndex]?.category}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <strong>Prep Time:</strong> {recipes[editIndex]?.prepTime}
+            <strong>Preparation Time:</strong> {recipes[editIndex]?.prepTime}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            <strong>Cook Time:</strong> {recipes[editIndex]?.cookTime}
+            <strong>Cooking Time:</strong> {recipes[editIndex]?.cookTime}
           </Typography>
           <Typography variant="body1" gutterBottom>
             <strong>Servings:</strong> {recipes[editIndex]?.servings}
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleEditRecipe(editIndex)} color="primary">
-            Edit
-          </Button>
-          <Button onClick={() => handleDeleteRecipe(editIndex)} color="secondary">
-            Delete
-          </Button>
+          <Button onClick={() => handleEditRecipe(editIndex)}>Edit</Button>
+          <Button onClick={() => handleDeleteRecipe(editIndex)}>Delete</Button>
+          <Button onClick={handleCloseDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* View Recipe Dialog */}
+      <Dialog open={viewIndex >= 0} onClose={handleCloseDialog}>
+        <DialogTitle>View Recipe</DialogTitle>
+        <DialogContent>
+          <Typography variant="h6">
+            {recipes[viewIndex]?.name}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Details:</strong> {recipes[viewIndex]?.details}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Ingredients:</strong> {recipes[viewIndex]?.ingredients}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Instructions:</strong> {recipes[viewIndex]?.instructions}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Category:</strong> {recipes[viewIndex]?.category}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Preparation Time:</strong> {recipes[viewIndex]?.prepTime}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Cooking Time:</strong> {recipes[viewIndex]?.cookTime}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Servings:</strong> {recipes[viewIndex]?.servings}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
           <Button onClick={handleCloseDialog}>Close</Button>
         </DialogActions>
       </Dialog>

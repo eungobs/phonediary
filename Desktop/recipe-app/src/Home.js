@@ -95,6 +95,20 @@ const Home = () => {
     // Optionally, add logic for what happens if cookies are declined
   };
 
+  // Function to check if the user is logged in
+  const isUserLoggedIn = () => {
+    // Replace this logic with your actual authentication check
+    return !!localStorage.getItem('user'); // Example check for user existence in localStorage
+  };
+
+  const handleAddRecipeClick = () => {
+    if (!isUserLoggedIn()) {
+      navigate('/login'); // Redirect to login if user is not logged in
+    } else {
+      navigate('/add-recipe'); // Redirect to add-recipe page if user is logged in
+    }
+  };
+
   return (
     <Container className="home" maxWidth={false} disableGutters>
       {/* Cookie Consent Popup */}
@@ -138,55 +152,41 @@ const Home = () => {
         <Button variant="contained" color="secondary" onClick={() => navigate('/login')}>
           Login
         </Button>
-        <Button variant="contained" color="success" onClick={() => navigate('/add-recipe')}>
+        <Button variant="contained" color="success" onClick={handleAddRecipeClick}>
           Add Recipe
         </Button>
       </Box>
       <Dialog open={!!selectedRecipe} onClose={handleClose}>
         <DialogTitle>{selectedRecipe?.name}</DialogTitle>
         <DialogContent>
-          <Typography variant="body1" gutterBottom>
-            <strong>Details:</strong>
+          <Typography variant="body1" paragraph>
+            <strong>Details:</strong> {selectedRecipe?.details}
           </Typography>
-          <Typography variant="body2">{selectedRecipe?.details}</Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Ingredients:</strong>
+          <Typography variant="body1" paragraph>
+            <strong>Ingredients:</strong> {selectedRecipe?.ingredients.join(', ')}
           </Typography>
-          <Typography variant="body2">{selectedRecipe?.ingredients.join(', ')}</Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Instructions:</strong>
+          <Typography variant="body1" paragraph>
+            <strong>Instructions:</strong> {selectedRecipe?.instructions}
           </Typography>
-          <Typography variant="body2">{selectedRecipe?.instructions}</Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Category:</strong>
+          <Typography variant="body1" paragraph>
+            <strong>Category:</strong> {selectedRecipe?.category}
           </Typography>
-          <Typography variant="body2">{selectedRecipe?.category}</Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Prep Time:</strong>
+          <Typography variant="body1" paragraph>
+            <strong>Preparation Time:</strong> {selectedRecipe?.prepTime}
           </Typography>
-          <Typography variant="body2">{selectedRecipe?.prepTime}</Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Cook Time:</strong>
+          <Typography variant="body1" paragraph>
+            <strong>Cooking Time:</strong> {selectedRecipe?.cookTime}
           </Typography>
-          <Typography variant="body2">{selectedRecipe?.cookTime}</Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Servings:</strong>
+          <Typography variant="body1" paragraph>
+            <strong>Servings:</strong> {selectedRecipe?.servings}
           </Typography>
-          <Typography variant="body2">{selectedRecipe?.servings}</Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
-      <Box className="footer" sx={{ position: 'absolute', bottom: 0, width: '100%', bgcolor: 'rgba(0, 0, 0, 0.5)', color: 'white', textAlign: 'center', p: 2 }}>
-        <Typography variant="body2" sx={{ fontWeight: 'bold', fontStyle: 'italic', color: 'black' }}>
-          By EE. Ndzukule @2024
-        </Typography>
-      </Box>
     </Container>
   );
 };
 
 export default Home;
-
-

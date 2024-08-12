@@ -1,23 +1,59 @@
-// Registration.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Registration = () => {
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [country, setCountry] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate registration logic
-    // Here, you might want to send user data to a server
-    navigate('/login');
+    
+    // Check if the user already exists
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+    const userExists = existingUsers.some(user => user.username === username);
+    
+    if (userExists) {
+      setError('User with this username already exists.');
+    } else {
+      // Register the new user
+      const newUser = { name, surname, country, username, password };
+      existingUsers.push(newUser);
+      localStorage.setItem('users', JSON.stringify(existingUsers));
+      navigate('/login');
+    }
   };
 
   return (
     <div>
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Surname"
+          value={surname}
+          onChange={(e) => setSurname(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          required
+        />
         <input
           type="text"
           placeholder="Username"
@@ -39,5 +75,4 @@ const Registration = () => {
 };
 
 export default Registration;
-
 
