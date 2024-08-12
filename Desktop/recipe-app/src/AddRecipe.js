@@ -8,6 +8,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListItemAvatar,
+  Avatar,
   IconButton,
   Dialog,
   DialogActions,
@@ -19,8 +21,8 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility'; // Import View Icon
-import { useNavigate } from 'react-router-dom'; // Added for navigation
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
 
 const categories = ['Breakfast', 'Lunch', 'Dinner'];
 
@@ -34,23 +36,34 @@ const AddRecipe = () => {
   const [prepTime, setPrepTime] = useState('');
   const [cookTime, setCookTime] = useState('');
   const [servings, setServings] = useState('');
+  const [image, setImage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [editIndex, setEditIndex] = useState(-1);
-  const [viewIndex, setViewIndex] = useState(-1); // State for viewing recipe
+  const [viewIndex, setViewIndex] = useState(-1);
   const [open, setOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false); // State for image dialog
+  const [selectedImage, setSelectedImage] = useState(''); // State for selected image
 
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
-  // Load recipes from localStorage on initial render
   useEffect(() => {
     const savedRecipes = JSON.parse(localStorage.getItem('recipes')) || [];
     setRecipes(savedRecipes);
   }, []);
 
-  // Save recipes to localStorage whenever the recipes state changes
   useEffect(() => {
     localStorage.setItem('recipes', JSON.stringify(recipes));
   }, [recipes]);
+
+  useEffect(() => {
+    const matchedIndex = recipes.findIndex(recipe => 
+      recipe.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (matchedIndex !== -1) {
+      setViewIndex(matchedIndex);
+      setOpen(true);
+    }
+  }, [searchTerm, recipes]);
 
   const handleAddRecipe = () => {
     const newRecipe = {
@@ -62,6 +75,7 @@ const AddRecipe = () => {
       prepTime,
       cookTime,
       servings,
+      image,
     };
 
     if (editIndex >= 0) {
@@ -76,6 +90,7 @@ const AddRecipe = () => {
     clearFields();
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleEditRecipe = (index) => {
     const recipe = recipes[index];
     setName(recipe.name);
@@ -86,6 +101,7 @@ const AddRecipe = () => {
     setPrepTime(recipe.prepTime);
     setCookTime(recipe.cookTime);
     setServings(recipe.servings);
+    setImage(recipe.image);
     setEditIndex(index);
     setOpen(false);
   };
@@ -101,6 +117,11 @@ const AddRecipe = () => {
     setOpen(true);
   };
 
+  const handleOpenImageDialog = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setImageDialogOpen(true);
+  };
+
   const clearFields = () => {
     setName('');
     setDetails('');
@@ -110,6 +131,7 @@ const AddRecipe = () => {
     setPrepTime('');
     setCookTime('');
     setServings('');
+    setImage('');
   };
 
   const handleOpenDialog = (index) => {
@@ -119,8 +141,9 @@ const AddRecipe = () => {
 
   const handleCloseDialog = () => {
     setEditIndex(-1);
-    setViewIndex(-1); // Clear viewIndex when closing
+    setViewIndex(-1);
     setOpen(false);
+    setImageDialogOpen(false);
   };
 
   const filteredRecipes = recipes.filter(
@@ -211,6 +234,14 @@ const AddRecipe = () => {
             variant="outlined"
             value={servings}
             onChange={(e) => setServings(e.target.value)}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Image URL"
+            fullWidth
+            variant="outlined"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
             sx={{ mb: 4 }}
           />
           <Button
@@ -258,7 +289,7 @@ const AddRecipe = () => {
                     <IconButton
                       edge="end"
                       onClick={() => handleViewRecipe(index)}
-                      sx={{ color: '#4caf50', mr: 1 }} 
+                      sx={{ color: '#4caf50', mr: 1 }}
                     >
                       <VisibilityIcon />
                     </IconButton>
@@ -279,84 +310,172 @@ const AddRecipe = () => {
                   </>
                 }
               >
-                <ListItemText
-                  primary={recipe.name}
-                  secondary={`${recipe.category} - ${recipe.details}`}
-                  primaryTypographyProps={{ fontWeight: 'bold' }} // Bold text
-                />
+                <ListItemAvatar>
+                  <Avatar
+                    src={recipe.image}
+                    onClick={() => handleOpenImageDialog(recipe.image)} // Open image dialog
+                    sx={{ cursor: 'pointer' }}
+                  />
+                </ListItemAvatar>
+                <ListItemText primary={recipe.name} secondary={recipe.category} />
               </ListItem>
             ))}
           </List>
         </Box>
       </Box>
 
-      {/* Edit/Delete Dialog */}
-      <Dialog open={open} onClose={handleCloseDialog}>
-        <DialogTitle>Edit or Delete Recipe</DialogTitle>
+      {/* Recipe View/Edit Dialog */}
+      <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="md">
+        <DialogTitle>
+          {viewIndex >= 0
+            ? recipes[viewIndex]?.name
+            : editIndex >= 0
+            ? 'Edit Recipe'
+            : ''}
+        </DialogTitle>
         <DialogContent>
-          <Typography variant="h6">
-            {recipes[editIndex]?.name}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Details:</strong> {recipes[editIndex]?.details}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Ingredients:</strong> {recipes[editIndex]?.ingredients}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Instructions:</strong> {recipes[editIndex]?.instructions}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Category:</strong> {recipes[editIndex]?.category}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Preparation Time:</strong> {recipes[editIndex]?.prepTime}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Cooking Time:</strong> {recipes[editIndex]?.cookTime}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Servings:</strong> {recipes[editIndex]?.servings}
-          </Typography>
+          {viewIndex >= 0 ? (
+            <>
+              <Typography variant="h6">Details</Typography>
+              <Typography paragraph>{recipes[viewIndex]?.details}</Typography>
+              <Typography variant="h6">Ingredients</Typography>
+              <Typography paragraph>
+                {recipes[viewIndex]?.ingredients}
+              </Typography>
+              <Typography variant="h6">Instructions</Typography>
+              <Typography paragraph>
+                {recipes[viewIndex]?.instructions}
+              </Typography>
+              <Typography variant="h6">Preparation Time</Typography>
+              <Typography paragraph>{recipes[viewIndex]?.prepTime}</Typography>
+              <Typography variant="h6">Cooking Time</Typography>
+              <Typography paragraph>{recipes[viewIndex]?.cookTime}</Typography>
+              <Typography variant="h6">Servings</Typography>
+              <Typography paragraph>{recipes[viewIndex]?.servings}</Typography>
+              <img
+                src={recipes[viewIndex]?.image}
+                alt="Recipe"
+                style={{ width: '100%', maxHeight: 300 }}
+              />
+            </>
+          ) : editIndex >= 0 ? (
+            <>
+              <TextField
+                label="Recipe Name"
+                fullWidth
+                variant="outlined"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Details"
+                fullWidth
+                variant="outlined"
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Ingredients (comma-separated)"
+                fullWidth
+                variant="outlined"
+                value={ingredients}
+                onChange={(e) => setIngredients(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Instructions"
+                fullWidth
+                variant="outlined"
+                value={instructions}
+                onChange={(e) => setInstructions(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Category"
+                fullWidth
+                variant="outlined"
+                select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                sx={{ mb: 2 }}
+              >
+                {categories.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Preparation Time"
+                fullWidth
+                variant="outlined"
+                value={prepTime}
+                onChange={(e) => setPrepTime(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Cooking Time"
+                fullWidth
+                variant="outlined"
+                value={cookTime}
+                onChange={(e) => setCookTime(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Servings"
+                fullWidth
+                variant="outlined"
+                value={servings}
+                onChange={(e) => setServings(e.target.value)}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Image URL"
+                fullWidth
+                variant="outlined"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                sx={{ mb: 4 }}
+              />
+            </>
+          ) : null}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleEditRecipe(editIndex)}>Edit</Button>
-          <Button onClick={() => handleDeleteRecipe(editIndex)}>Delete</Button>
-          <Button onClick={handleCloseDialog}>Close</Button>
+          {viewIndex >= 0 && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleEditRecipe(viewIndex)}
+            >
+              Edit
+            </Button>
+          )}
+          <Button onClick={handleCloseDialog} color="secondary">
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
 
-      {/* View Recipe Dialog */}
-      <Dialog open={viewIndex >= 0} onClose={handleCloseDialog}>
-        <DialogTitle>View Recipe</DialogTitle>
+      {/* Image Dialog */}
+      <Dialog
+        open={imageDialogOpen}
+        onClose={handleCloseDialog}
+        maxWidth="md"
+        fullWidth
+      >
         <DialogContent>
-          <Typography variant="h6">
-            {recipes[viewIndex]?.name}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Details:</strong> {recipes[viewIndex]?.details}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Ingredients:</strong> {recipes[viewIndex]?.ingredients}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Instructions:</strong> {recipes[viewIndex]?.instructions}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Category:</strong> {recipes[viewIndex]?.category}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Preparation Time:</strong> {recipes[viewIndex]?.prepTime}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Cooking Time:</strong> {recipes[viewIndex]?.cookTime}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Servings:</strong> {recipes[viewIndex]?.servings}
-          </Typography>
+          <img
+            src={selectedImage}
+            alt="Recipe"
+            style={{ width: '100%', maxHeight: 500 }}
+          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Close</Button>
+          <Button onClick={handleCloseDialog} color="primary">
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </Container>
@@ -364,3 +483,4 @@ const AddRecipe = () => {
 };
 
 export default AddRecipe;
+
