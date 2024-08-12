@@ -145,16 +145,21 @@ const Home = () => {
       <Box className="image-slider">
         <img src={images[currentImage]} alt={`Featured Recipe ${currentImage + 1}`} />
       </Box>
-      <Box className="links" display="flex" justifyContent="center" gap={2} mb={4}>
-        <Button variant="contained" color="primary" onClick={() => navigate('/register')}>
-          Register
-        </Button>
-        <Button variant="contained" color="secondary" onClick={() => navigate('/login')}>
-          Login
-        </Button>
-        <Button variant="contained" color="success" onClick={handleAddRecipeClick}>
-          Add Recipe
-        </Button>
+      <Box className="links" display="flex" flexDirection="column" alignItems="center" mb={4}>
+        <Box display="flex" justifyContent="center" gap={2} mb={2}>
+          <Button variant="contained" color="primary" onClick={() => navigate('/register')}>
+            Register
+          </Button>
+          <Button variant="contained" color="secondary" onClick={() => navigate('/login')}>
+            Login
+          </Button>
+          <Button variant="contained" color="success" onClick={handleAddRecipeClick}>
+            Add Recipe
+          </Button>
+        </Box>
+        <Typography variant="body2" color="textSecondary">
+          @2024 Smart Recipe. All rights reserved
+        </Typography>
       </Box>
       <Dialog open={!!selectedRecipe} onClose={handleClose}>
         <DialogTitle>{selectedRecipe?.name}</DialogTitle>
@@ -190,3 +195,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+

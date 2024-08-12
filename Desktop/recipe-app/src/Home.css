@@ -2,11 +2,20 @@
   position: relative;
   padding: 20px;
   background-color: #333;
-  height: 100vh;
+  min-height: 100vh; /* Ensure the container takes up at least the full height of the viewport */
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
+}
+
+.footer {
+  margin-top: auto; /* Pushes the footer to the bottom of the container */
+  padding: 10px;
+  background-color: #444;
+  text-align: center;
+  width: 100%;
+  color: #fff;
 }
 
 .paragraph {
@@ -18,8 +27,6 @@
   padding: 10px 20px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  
-  
   font-weight: bold;
   color: #ffcc00; 
   position: absolute;
@@ -71,18 +78,19 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
 .cookie-popup {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
+  transform: translate(-50%, -50%);
   background-color: #f1f1f1;
-  color: black; 
+  color: black;
   padding: 15px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px; 
-  z-index: 1000; 
+  border-radius: 8px;
+  z-index: 1000;
 }
 
 .cookie-popup button {
@@ -93,3 +101,4 @@
   margin-bottom: 16px;
   font-size: 14px;
 }
+
