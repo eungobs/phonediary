@@ -1,11 +1,9 @@
-/* AddRecipe.css */
-
 .container {
   background-color: #030000;
   padding: 20px;
   border-radius: 8px;
-  max-width: 1200px; /* Limit the width on larger screens */
-  margin: 0 auto; /* Center the container */
+  max-width: 1200px; 
+  margin: 0 auto; 
 }
 
 .paper {
