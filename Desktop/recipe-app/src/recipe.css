@@ -1,0 +1,27 @@
+/* recipe.css */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.MuiAppBar-root {
+  background-color: #333;
+}
+
+.MuiPaper-root {
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.MuiTextField-root {
+  margin: 8px 0;
+}
+
+.MuiButton-containedPrimary {
+  background-color: #1976d2;
+}
+
+.MuiButton-containedSecondary {
+  background-color: #d32f2f;
+}
+
+

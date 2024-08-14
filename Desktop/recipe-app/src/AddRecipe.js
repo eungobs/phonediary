@@ -1,486 +1,261 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  MenuItem,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  IconButton,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Box,
-  AppBar,
-  Toolbar
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import React, { useState, useRef, useEffect } from 'react';
+import { Button, TextField, Select, MenuItem, InputLabel, FormControl, Container, CssBaseline, Box, Typography, Paper, AppBar, Toolbar } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './recipe.css';
 
-const categories = ['Breakfast', 'Lunch', 'Dinner'];
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
-const AddRecipe = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [name, setName] = useState('');
-  const [details, setDetails] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [category, setCategory] = useState('');
-  const [prepTime, setPrepTime] = useState('');
-  const [cookTime, setCookTime] = useState('');
-  const [servings, setServings] = useState('');
-  const [image, setImage] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [editIndex, setEditIndex] = useState(-1);
-  const [viewIndex, setViewIndex] = useState(-1);
-  const [open, setOpen] = useState(false);
-  const [imageDialogOpen, setImageDialogOpen] = useState(false); // State for image dialog
-  const [selectedImage, setSelectedImage] = useState(''); // State for selected image
-
+function AddRecipe({ onLogout }) {
   const navigate = useNavigate();
+  const [recipes, setRecipes] = useState([]);
+  const [opened, setOpened] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentRecipe, setCurrentRecipe] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
+
+  const recipeName = useRef('');
+  const recipeDetails = useRef('');
+  const recipeIngredients = useRef('');
+  const recipeInstructions = useRef('');
+  const recipeCategory = useRef('');
+  const recipePrepTime = useRef('');
+  const recipeServings = useRef('');
+  const recipeCookTime = useRef('');
+  const recipeImage = useRef(null);
+
+  // Fetch recipes from the JSON server
+  const fetchRecipes = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/recipes');
+      setRecipes(response.data);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    }
+  };
 
   useEffect(() => {
-    const savedRecipes = JSON.parse(localStorage.getItem('recipes')) || [];
-    setRecipes(savedRecipes);
+    fetchRecipes();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('recipes', JSON.stringify(recipes));
-  }, [recipes]);
+  // Upload image and get URL
+  const uploadImage = async (file) => {
+    if (!file) return ''; // If no file, return empty string
 
-  useEffect(() => {
-    const matchedIndex = recipes.findIndex(recipe => 
-      recipe.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    if (matchedIndex !== -1) {
-      setViewIndex(matchedIndex);
-      setOpen(true);
+    const uploadUrl = 'https://api.mockimageupload.com/upload'; // Update with your actual image upload URL
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await axios.post(uploadUrl, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data.url; // URL returned by your image upload service
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return '';
     }
-  }, [searchTerm, recipes]);
+  };
 
-  const handleAddRecipe = () => {
+  // Create a new recipe and save it to the JSON server
+  const createRecipe = async () => {
+    const imageUrl = await uploadImage(recipeImage.current.files[0]);
+
     const newRecipe = {
-      name,
-      details,
-      ingredients,
-      instructions,
-      category,
-      prepTime,
-      cookTime,
-      servings,
-      image,
+      id: Date.now(),
+      name: recipeName.current.value,
+      details: recipeDetails.current.value,
+      ingredients: recipeIngredients.current.value.split('\n'), // Ensure ingredients are an array
+      instructions: recipeInstructions.current.value,
+      category: recipeCategory.current.value,
+      prepTime: recipePrepTime.current.value,
+      servings: recipeServings.current.value,
+      cookTime: recipeCookTime.current.value,
+      image: imageUrl,
     };
 
-    if (editIndex >= 0) {
-      const updatedRecipes = [...recipes];
-      updatedRecipes[editIndex] = newRecipe;
-      setRecipes(updatedRecipes);
-      setEditIndex(-1);
-    } else {
-      setRecipes([...recipes, newRecipe]);
+    try {
+      const response = await axios.post('http://localhost:3001/recipes', newRecipe);
+      console.log('Recipe created:', response.data);
+      setRecipes([...recipes, response.data]); // Add the newly created recipe
+      setOpened(false);
+    } catch (error) {
+      console.error('Error creating recipe:', error);
     }
-
-    clearFields();
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const handleEditRecipe = (index) => {
-    const recipe = recipes[index];
-    setName(recipe.name);
-    setDetails(recipe.details);
-    setIngredients(recipe.ingredients);
-    setInstructions(recipe.instructions);
-    setCategory(recipe.category);
-    setPrepTime(recipe.prepTime);
-    setCookTime(recipe.cookTime);
-    setServings(recipe.servings);
-    setImage(recipe.image);
-    setEditIndex(index);
-    setOpen(false);
+  // Edit a recipe and update it in the JSON server
+  const editRecipe = async () => {
+    const imageUrl = recipeImage.current.files[0] ? await uploadImage(recipeImage.current.files[0]) : currentRecipe.image;
+
+    const updatedRecipe = {
+      ...currentRecipe,
+      name: recipeName.current.value,
+      details: recipeDetails.current.value,
+      ingredients: recipeIngredients.current.value.split('\n'),
+      instructions: recipeInstructions.current.value,
+      category: recipeCategory.current.value,
+      prepTime: recipePrepTime.current.value,
+      servings: recipeServings.current.value,
+      cookTime: recipeCookTime.current.value,
+      image: imageUrl,
+    };
+
+    try {
+      const response = await axios.put(http://localhost:3001/recipes/${currentRecipe.id}, updatedRecipe);
+      console.log('Recipe updated:', response.data);
+      setRecipes(recipes.map(recipe => recipe.id === currentRecipe.id ? response.data : recipe));
+      setOpened(false);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating recipe:', error);
+    }
   };
 
-  const handleDeleteRecipe = (index) => {
-    const updatedRecipes = recipes.filter((_, i) => i !== index);
-    setRecipes(updatedRecipes);
-    setOpen(false);
+  // Delete a recipe and remove it from the JSON server
+  const deleteRecipe = async (recipeId) => {
+    try {
+      await axios.delete(http://localhost:3001/recipes/${recipeId});
+      setRecipes(recipes.filter(recipe => recipe.id !== recipeId));
+    } catch (error) {
+      console.error('Error deleting recipe:', error);
+    }
   };
 
-  const handleViewRecipe = (index) => {
-    setViewIndex(index);
-    setOpen(true);
-  };
-
-  const handleOpenImageDialog = (imageUrl) => {
-    setSelectedImage(imageUrl);
-    setImageDialogOpen(true);
-  };
-
-  const clearFields = () => {
-    setName('');
-    setDetails('');
-    setIngredients('');
-    setInstructions('');
-    setCategory('');
-    setPrepTime('');
-    setCookTime('');
-    setServings('');
-    setImage('');
-  };
-
-  const handleOpenDialog = (index) => {
-    setEditIndex(index);
-    setOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setEditIndex(-1);
-    setViewIndex(-1);
-    setOpen(false);
-    setImageDialogOpen(false);
-  };
-
-  const filteredRecipes = recipes.filter(
-    (recipe) =>
-      recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      recipe.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredRecipes = recipes.filter(recipe =>
+    recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    recipe.ingredients.join(' ').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    recipe.instructions.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <Container maxWidth="lg" className="add-recipe-container" sx={{ p: 4, backgroundColor: '#f5f5f5' }}>
-      <AppBar position="static" sx={{ mb: 4 }}>
-        <Toolbar>
-          <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
-          <Button color="inherit" onClick={() => navigate('/login')} sx={{ ml: 'auto' }}>Logout</Button>
-        </Toolbar>
-      </AppBar>
-      <Box sx={{ display: 'flex', gap: 4 }}>
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Add New Recipe
-          </Typography>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Container component="main">
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" onClick={onLogout}>Logout</Button>
+            <Button color="inherit" onClick={() => navigate('/')}>Home</Button>
+          </Toolbar>
+        </AppBar>
+        <Box display="flex" flexDirection="column" alignItems="center">
           <TextField
-            label="Recipe Name"
-            fullWidth
             variant="outlined"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Details"
+            margin="normal"
             fullWidth
-            variant="outlined"
-            value={details}
-            onChange={(e) => setDetails(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Ingredients (comma-separated)"
-            fullWidth
-            variant="outlined"
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Instructions"
-            fullWidth
-            variant="outlined"
-            value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Category"
-            fullWidth
-            variant="outlined"
-            select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            sx={{ mb: 2 }}
-          >
-            {categories.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            label="Preparation Time"
-            fullWidth
-            variant="outlined"
-            value={prepTime}
-            onChange={(e) => setPrepTime(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Cooking Time"
-            fullWidth
-            variant="outlined"
-            value={cookTime}
-            onChange={(e) => setCookTime(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Servings"
-            fullWidth
-            variant="outlined"
-            value={servings}
-            onChange={(e) => setServings(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-          <TextField
-            label="Image URL"
-            fullWidth
-            variant="outlined"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            sx={{ mb: 4 }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handleAddRecipe}
-          >
-            {editIndex >= 0 ? 'Update Recipe' : 'Add Recipe'}
-          </Button>
-
-          {/* Search Bar */}
-          <TextField
-            label="Search Recipes"
-            fullWidth
-            variant="outlined"
+            placeholder="Search recipes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{ mt: 4, mb: 2 }}
+            InputProps={{
+              endAdornment: <SearchIcon />,
+            }}
           />
-        </Box>
-
-        {/* Recipe List */}
-        <Box
-          sx={{
-            flex: 1,
-            maxWidth: 400,
-            borderLeft: '1px solid #ddd',
-            pl: 2,
-            backgroundColor: '#e0e0e0',
-            borderRadius: 1,
-            p: 2,
-            color: '#000000',
-          }}
-        >
-          <Typography variant="h6" gutterBottom>
-            Recipe List
-          </Typography>
-          <List>
-            {filteredRecipes.map((recipe, index) => (
-              <ListItem
-                key={index}
-                secondaryAction={
-                  <>
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleViewRecipe(index)}
-                      sx={{ color: '#4caf50', mr: 1 }}
-                    >
-                      <VisibilityIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleOpenDialog(index)}
-                      sx={{ color: '#2196f3', mr: 1 }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleDeleteRecipe(index)}
-                      sx={{ color: '#f44336' }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </>
-                }
-              >
-                <ListItemAvatar>
-                  <Avatar
-                    src={recipe.image}
-                    onClick={() => handleOpenImageDialog(recipe.image)} // Open image dialog
-                    sx={{ cursor: 'pointer' }}
-                  />
-                </ListItemAvatar>
-                <ListItemText primary={recipe.name} secondary={recipe.category} />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Box>
-
-      {/* Recipe View/Edit Dialog */}
-      <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="md">
-        <DialogTitle>
-          {viewIndex >= 0
-            ? recipes[viewIndex]?.name
-            : editIndex >= 0
-            ? 'Edit Recipe'
-            : ''}
-        </DialogTitle>
-        <DialogContent>
-          {viewIndex >= 0 ? (
-            <>
-              <Typography variant="h6">Details</Typography>
-              <Typography paragraph>{recipes[viewIndex]?.details}</Typography>
-              <Typography variant="h6">Ingredients</Typography>
-              <Typography paragraph>
-                {recipes[viewIndex]?.ingredients}
-              </Typography>
-              <Typography variant="h6">Instructions</Typography>
-              <Typography paragraph>
-                {recipes[viewIndex]?.instructions}
-              </Typography>
-              <Typography variant="h6">Preparation Time</Typography>
-              <Typography paragraph>{recipes[viewIndex]?.prepTime}</Typography>
-              <Typography variant="h6">Cooking Time</Typography>
-              <Typography paragraph>{recipes[viewIndex]?.cookTime}</Typography>
-              <Typography variant="h6">Servings</Typography>
-              <Typography paragraph>{recipes[viewIndex]?.servings}</Typography>
-              <img
-                src={recipes[viewIndex]?.image}
-                alt="Recipe"
-                style={{ width: '100%', maxHeight: 300 }}
-              />
-            </>
-          ) : editIndex >= 0 ? (
-            <>
+          {opened && (
+            <Paper elevation={3} sx={{ padding: 2, margin: 2 }}>
+              <Typography component="h2" variant="h5">{isEditing ? 'Edit Recipe' : 'New Recipe'}</Typography>
+              <TextField inputRef={recipeName} label="Name" fullWidth margin="normal" required defaultValue={isEditing ? currentRecipe.name : ''} />
+              <TextField inputRef={recipeDetails} label="Details" fullWidth margin="normal" multiline rows={2} defaultValue={isEditing ? currentRecipe.details : ''} />
+              <TextField inputRef={recipeIngredients} label="Ingredients (one per line)" fullWidth margin="normal" multiline rows={4} defaultValue={isEditing ? currentRecipe.ingredients.join('\n') : ''} />
+              <TextField inputRef={recipeInstructions} label="Instructions" fullWidth margin="normal" multiline rows={4} defaultValue={isEditing ? currentRecipe.instructions : ''} />
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Category</InputLabel>
+                <Select inputRef={recipeCategory} label="Category" defaultValue={isEditing ? currentRecipe.category : ''}>
+                  <MenuItem value="Appetizer">Appetizer</MenuItem>
+                  <MenuItem value="Main Course">Main Course</MenuItem>
+                  <MenuItem value="Dessert">Dessert</MenuItem>
+                  <MenuItem value="Snack">Snack</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
-                label="Recipe Name"
-                fullWidth
-                variant="outlined"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Details"
-                fullWidth
-                variant="outlined"
-                value={details}
-                onChange={(e) => setDetails(e.target.value)}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Ingredients (comma-separated)"
-                fullWidth
-                variant="outlined"
-                value={ingredients}
-                onChange={(e) => setIngredients(e.target.value)}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Instructions"
-                fullWidth
-                variant="outlined"
-                value={instructions}
-                onChange={(e) => setInstructions(e.target.value)}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                label="Category"
-                fullWidth
-                variant="outlined"
-                select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                sx={{ mb: 2 }}
-              >
-                {categories.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
+                inputRef={recipePrepTime}
                 label="Preparation Time"
                 fullWidth
-                variant="outlined"
-                value={prepTime}
-                onChange={(e) => setPrepTime(e.target.value)}
-                sx={{ mb: 2 }}
+                margin="normal"
+                defaultValue={isEditing ? currentRecipe.prepTime : ''}
               />
               <TextField
-                label="Cooking Time"
-                fullWidth
-                variant="outlined"
-                value={cookTime}
-                onChange={(e) => setCookTime(e.target.value)}
-                sx={{ mb: 2 }}
-              />
-              <TextField
+                inputRef={recipeServings}
                 label="Servings"
                 fullWidth
-                variant="outlined"
-                value={servings}
-                onChange={(e) => setServings(e.target.value)}
-                sx={{ mb: 2 }}
+                margin="normal"
+                defaultValue={isEditing ? currentRecipe.servings : ''}
               />
               <TextField
-                label="Image URL"
+                inputRef={recipeCookTime}
+                label="Cook Time"
                 fullWidth
-                variant="outlined"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                sx={{ mb: 4 }}
+                margin="normal"
+                defaultValue={isEditing ? currentRecipe.cookTime : ''}
               />
-            </>
-          ) : null}
-        </DialogContent>
-        <DialogActions>
-          {viewIndex >= 0 && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleEditRecipe(viewIndex)}
-            >
-              Edit
-            </Button>
+              <TextField
+                type="file"
+                inputRef={recipeImage}
+                label="Image"
+                fullWidth
+                margin="normal"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    setImagePreview(URL.createObjectURL(file));
+                  } else {
+                    setImagePreview('');
+                  }
+                }}
+              />
+              {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', marginTop: '16px' }} />}
+              <Box display="flex" justifyContent="space-between">
+                <Button variant="contained" color="secondary" onClick={() => setOpened(false)}>Cancel</Button>
+                <Button variant="contained" color="primary" onClick={isEditing ? editRecipe : createRecipe}>{isEditing ? 'Update Recipe' : 'Create Recipe'}</Button>
+              </Box>
+            </Paper>
           )}
-          <Button onClick={handleCloseDialog} color="secondary">
-            Close
+          <Box mt={2} width="100%">
+            {filteredRecipes.length > 0 ? (
+              filteredRecipes.map(recipe => (
+                <Paper key={recipe.id} elevation={3} sx={{ padding: 2, margin: 2 }}>
+                  <Typography variant="h6">{recipe.name}</Typography>
+                  <Typography variant="body2">Details: {recipe.details}</Typography>
+                  <Typography variant="body2">Category: {recipe.category}</Typography>
+                  <Typography variant="body2">Prep Time: {recipe.prepTime}</Typography>
+                  <Typography variant="body2">Servings: {recipe.servings}</Typography>
+                  <Typography variant="body2">Cook Time: {recipe.cookTime}</Typography>
+                  {recipe.image && <img src={recipe.image} alt={recipe.name} style={{ maxWidth: '100%' }} />}
+                  <Box mt={2} display="flex" justifyContent="space-between">
+                    <Button variant="contained" color="primary" onClick={() => {
+                      setCurrentRecipe(recipe);
+                      setIsEditing(true);
+                      setOpened(true);
+                    }}>Edit</Button>
+                    <Button variant="contained" color="error" onClick={() => deleteRecipe(recipe.id)} startIcon={<DeleteIcon />}>Delete</Button>
+                  </Box>
+                </Paper>
+              ))
+            ) : (
+              <Typography variant="h6">No recipes found</Typography>
+            )}
+          </Box>
+          <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => {
+            setIsEditing(false);
+            setOpened(true);
+            setImagePreview('');
+          }}>
+            Add Recipe
           </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Image Dialog */}
-      <Dialog
-        open={imageDialogOpen}
-        onClose={handleCloseDialog}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogContent>
-          <img
-            src={selectedImage}
-            alt="Recipe"
-            style={{ width: '100%', maxHeight: 500 }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Container>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
-};
+}
 
 export default AddRecipe;
-

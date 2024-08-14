@@ -1,66 +1,86 @@
 {
   "recipes": [
     {
-      "id": 1,
-      "name": "Spaghetti Carbonara",
-      "details": "A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.",
-      "ingredients": "Spaghetti, Eggs, Cheese, Pancetta, Pepper",
-      "instructions": "1. Cook spaghetti. 2. Fry pancetta. 3. Mix eggs and cheese. 4. Combine all ingredients.",
+      "id": 1723632639892,
+      "name": "banana",
+      "details": "juice",
+      "ingredients": [
+        "water,bana and sugar"
+      ],
+      "instructions": "mix with blender",
       "category": "Main Course",
-      "prepTime": "15 minutes",
-      "cookTime": "20 minutes",
-      "servings": 4
-    },
-    {
-      "id": 2,
-      "name": "Grilled Chicken Salad",
-      "details": "A healthy salad with grilled chicken, fresh vegetables, and a light dressing.",
-      "ingredients": "Chicken, Lettuce, Tomatoes, Cucumbers, Dressing",
-      "instructions": "1. Grill chicken. 2. Chop vegetables. 3. Mix together with dressing.",
-      "category": "Appetiser",
       "prepTime": "10 minutes",
-      "cookTime": "15 minutes",
-      "servings": 2
+      "servings": "4",
+      "cookTime": "20 minutes",
+      "image": ""
     },
     {
-      "id": 3,
-      "name": "Vegetable Soup",
-      "details": "A hearty soup made with a variety of vegetables, perfect for a cold day.",
-      "ingredients": "Carrots, Potatoes, Celery, Tomatoes, Onions",
-      "instructions": "1. Chop vegetables. 2. Cook in broth until tender.",
-      "category": "Starter",
-      "prepTime": "15 minutes",
-      "cookTime": "30 minutes",
-      "servings": 6
-    },
-    {
-      "id": 4,
-      "name": "Beef Stroganoff",
-      "details": "A Russian dish with sautéed pieces of beef served in a sauce with smetana (sour cream).",
-      "ingredients": "Beef, Sour Cream, Mushrooms, Onions, Garlic",
-      "instructions": "1. Sauté beef and onions. 2. Add mushrooms and cook. 3. Stir in sour cream.",
+      "id": 1723633525559,
+      "name": "chicken wings with sauce and salad/ Pasta",
+      "details": "Chicken wings with pasta salad and garlic dressing\nmambeno.co.uk (2)\n25 min\nRead full directions\nChicken wings are a surefire hit - on the grill or in the oven. Especially when they're brushed with our delicious marinade, which is surprisingly easy to make and goes super well with an easy pasta salad with fresh peas, feta, olives, ",
+      "ingredients": [
+        "ngredients",
+        "2 cloves",
+        "Garlic",
+        "50 milliliters",
+        "Ketchup",
+        "1 tablespoon",
+        "Acacia Honey",
+        "1 teaspoon",
+        "Salt",
+        "1 tablespoon",
+        "Balsamic Vinegar",
+        "½ tablespoon",
+        "Paprika",
+        "700 grams",
+        "Chicken Wings",
+        "300 grams",
+        "Wholewheat Penne",
+        "½ ",
+        "Cucumber",
+        "100 grams",
+        "Dried Apricot",
+        "200 grams",
+        "Peas",
+        "1 bunch",
+        "Parsley",
+        "100 grams",
+        "Green Olives",
+        "100 grams",
+        "Feta Cubes",
+        "300 milliliters",
+        "Skyr  (or creme fraiche)",
+        "add ",
+        "Pepper"
+      ],
+      "instructions": "1. Preheat your oven to 225 degrees convection or fire up the grill, if the weather permits.\n2. Press the garlic or finely chop it and mix half with ketchup, honey, salt, balsamic vinegar and paprika in a bowl - save the rest for the dressing",
       "category": "Main Course",
-      "prepTime": "20 minutes",
-      "cookTime": "25 minutes",
-      "servings": 4
+      "prepTime": "25 minutes",
+      "servings": "4",
+      "cookTime": "early evening",
+      "image": ""
     },
     {
-      "id": 5,
-      "name": "Chocolate Cake",
-      "details": "A rich and moist chocolate cake perfect for dessert.",
-      "ingredients": "Flour, Cocoa Powder, Sugar, Butter, Eggs",
-      "instructions": "1. Mix ingredients. 2. Bake in oven until cooked through.",
-      "category": "Dessert",
-      "prepTime": "20 minutes",
-      "cookTime": "30 minutes",
-      "servings": 8
+      "id": 1723633806932,
+      "name": "banana",
+      "details": "juice",
+      "ingredients": [
+        "water,bana and sugar"
+      ],
+      "instructions": "mix with blender",
+      "category": "Main Course",
+      "prepTime": "10 minutes",
+      "servings": "4",
+      "cookTime": "20 minutes",
+      "image": ""
     }
   ],
   "users": [
     {
-      "id": 1,
-      "username": "admin",
-      "password": "password123"
+      "id": "1",
+      "username": "",
+      "password": "",
+      "name": ""
     }
   ]
 }

@@ -10,21 +10,41 @@ const Registration = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Check if the user already exists
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = existingUsers.some(user => user.username === username);
-    
-    if (userExists) {
-      setError('User with this username already exists.');
-    } else {
+    try {
+      // Check if the user already exists
+      const response = await fetch('http://localhost:3001/users');
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      const existingUsers = await response.json();
+      const userExists = existingUsers.some(user => user.username === username);
+      
+      if (userExists) {
+        setError('User with this username already exists.');
+        return; // Prevent further execution if user exists
+      }
+
       // Register the new user
       const newUser = { name, surname, country, username, password };
-      existingUsers.push(newUser);
-      localStorage.setItem('users', JSON.stringify(existingUsers));
-      navigate('/login');
+      const registerResponse = await fetch('http://localhost:3001/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      if (!registerResponse.ok) {
+        throw new Error('Failed to register user.');
+      }
+
+      navigate('/login'); // Redirect to login page upon successful registration
+    } catch (err) {
+      console.error('Error:', err);
+      setError('An error occurred. Please try again.');
     }
   };
 
@@ -75,4 +95,7 @@ const Registration = () => {
 };
 
 export default Registration;
+
+
+
 
