@@ -24,4 +24,153 @@ body {
   background-color: #d32f2f;
 }
 
+/* Media Queries for Responsive Design */
+
+/* 1200px and up */
+@media (min-width: 1200px) {
+  .MuiPaper-root {
+    max-width: 1000px;
+    margin: 16px auto;
+  }
+
+  .MuiTextField-root {
+    width: 80%;
+  }
+
+  .MuiButton-containedPrimary, .MuiButton-containedSecondary {
+    font-size: 16px;
+  }
+}
+
+/* 1000px and up */
+@media (max-width: 1199px) and (min-width: 1000px) {
+  .MuiPaper-root {
+    max-width: 900px;
+    margin: 16px auto;
+  }
+
+  .MuiTextField-root {
+    width: 90%;
+  }
+
+  .MuiButton-containedPrimary, .MuiButton-containedSecondary {
+    font-size: 15px;
+  }
+}
+
+/* 900px and up */
+@media (max-width: 999px) and (min-width: 900px) {
+  .MuiPaper-root {
+    max-width: 800px;
+    margin: 16px auto;
+  }
+
+  .MuiTextField-root {
+    width: 100%;
+  }
+
+  .MuiButton-containedPrimary, .MuiButton-containedSecondary {
+    font-size: 14px;
+  }
+}
+
+/* 980px and up */
+@media (max-width: 899px) and (min-width: 980px) {
+  .MuiPaper-root {
+    max-width: 780px;
+    margin: 16px auto;
+  }
+}
+
+/* 740px and up */
+@media (max-width: 979px) and (min-width: 740px) {
+  .MuiPaper-root {
+    max-width: 700px;
+    margin: 16px auto;
+  }
+
+  .MuiButton-containedPrimary, .MuiButton-containedSecondary {
+    font-size: 13px;
+  }
+}
+
+/* 680px and up */
+@media (max-width: 739px) and (min-width: 680px) {
+  .MuiPaper-root {
+    max-width: 600px;
+    margin: 16px auto;
+  }
+}
+
+/* 640px and up */
+@media (max-width: 679px) and (min-width: 640px) {
+  .MuiPaper-root {
+    max-width: 550px;
+    margin: 16px auto;
+  }
+
+  .MuiTextField-root {
+    width: 100%;
+  }
+
+  .MuiButton-containedPrimary, .MuiButton-containedSecondary {
+    font-size: 12px;
+  }
+}
+
+/* 580px and up */
+@media (max-width: 639px) and (min-width: 580px) {
+  .MuiPaper-root {
+    max-width: 500px;
+    margin: 16px auto;
+  }
+}
+
+/* 540px and up */
+@media (max-width: 579px) and (min-width: 540px) {
+  .MuiPaper-root {
+    max-width: 480px;
+    margin: 16px auto;
+  }
+}
+
+/* 480px and up */
+@media (max-width: 539px) and (min-width: 480px) {
+  .MuiPaper-root {
+    max-width: 400px;
+    margin: 16px auto;
+  }
+}
+
+/* 420px and up */
+@media (max-width: 479px) and (min-width: 420px) {
+  .MuiPaper-root {
+    max-width: 350px;
+    margin: 16px auto;
+  }
+}
+
+/* 320px and up */
+@media (max-width: 419px) and (min-width: 320px) {
+  .MuiPaper-root {
+    max-width: 300px;
+    margin: 16px auto;
+  }
+
+  .MuiButton-containedPrimary, .MuiButton-containedSecondary {
+    font-size: 11px;
+  }
+}
+
+/* Small screens and less */
+@media (max-width: 319px) {
+  .MuiPaper-root {
+    max-width: 280px;
+    margin: 16px auto;
+  }
+
+  .MuiButton-containedPrimary, .MuiButton-containedSecondary {
+    font-size: 10px;
+  }
+}
 
