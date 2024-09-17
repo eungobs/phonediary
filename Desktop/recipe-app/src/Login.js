@@ -14,7 +14,7 @@ const Login = () => {
     // Simulate authentication process
     setTimeout(() => {
       setLoading(false);
-      navigate('/add-recipe'); // Ensure this matches the route in App.js
+      navigate('/add-recipe'); 
     }, 1000); // 1 second delay
   };
 
